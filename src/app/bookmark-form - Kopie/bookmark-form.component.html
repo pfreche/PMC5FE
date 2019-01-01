@@ -1,0 +1,32 @@
+
+<form #f="ngForm" (ngSubmit)="submit(f)">
+  <div class="form-group">
+   <label for="bname"> Bookmark Name </label>
+   <input required minlength="3" maxlength="5"
+    ngModel name="bname" #aa="ngModel" (change)="log(aa)" id="bname" type="text" class="form-control">
+  </div>
+   <div *ngIf="aa.touched && !aa.valid"> 
+      <div *ngIf="aa.errors.required"> Eingabe erforderlich 
+      </div>    
+      <div *ngIf="aa.errors.minlength"> Mindestens {{aa.errors.minlength.requiredLength}} Zeichen erforderlich  
+        </div>    
+    </div>
+   <div class="form-group"> 
+     <label for="url">URL </label>
+    <textarea  ngModel name="kk" id="url" cols="20" rows="10" class="form-control">
+    </textarea>
+  </div>
+   <div class="checkbox"><label >
+     <input type="checkbox" ngModel name="isImportant"> Important</label>
+    </div>  
+
+    <div class="form-group">
+      <label for="type"> Type </label>
+      <select ngModel name="ype" id="ype" class="form-control">
+        <option *ngFor="let ype of ypes" [id]="ype.id">{{ype.name}}</option>
+      </select>
+    </div>
+    <p>{{f.value |json}}</p>
+      <button class="btn btn-primary" [disabled]="!f.valid" >submit</button>
+
+</form>

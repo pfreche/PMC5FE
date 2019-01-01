@@ -1,0 +1,32 @@
+
+<form #f="ngForm" (ngSubmit)="submit(f)">
+        <input [value]="bookmark.id"
+          [(ngModel)]="bookmark.id" name="id" #aa="ngModel" />
+
+       <div class="form-group">
+   <label for="bname"> Title </label>
+   <input  [value]="bookmark.title"
+    ngModel name="title" #aa="ngModel" (change)="log(aa)" id="title" type="text" class="form-control">
+  </div>
+   <div *ngIf="aa.touched && !aa.valid"> 
+      <div *ngIf="aa.errors.required"> Eingabe erforderlich 
+      </div>    
+      <div *ngIf="aa.errors.minlength"> Mindestens {{aa.errors.minlength.requiredLength}} Zeichen erforderlich  
+        </div>    
+    </div>
+   <div class="form-group"> 
+     <label for="url">URL </label>
+    <input  ngModel name="url" id="url" [value]="bookmark.url" class="form-control">
+   </div>
+   
+   <div class="form-group"> 
+      <label for="description">Description </label>
+    <textarea  ngModel name="description" id="url" cols="20" rows="10" [value]="bookmark.description" class="form-control">
+     </textarea>
+    </div>
+    
+    <p>{{f.value |json}}</p>
+      <button class="btn btn-primary" [disabled]="!f.valid" >submit</button>
+      <button type="button" class="btn btn-primary" (click)="cancel()" > Cancel</button>
+
+</form>
