@@ -2,7 +2,7 @@
 <!-- <div> {{bookmarks}} </div> -->
 <table> 
     <tr><th>ID</th><th>Title</th><th>URL</th><th>description</th></tr>
-<tr *ngFor="let b of bookmarks"  (click)="select(b)" #t>
-    <td ><a [routerLink]="['/hero', b.id]">eeee</a> </td> <td > {{b.title}}</td> <td>{{b.url}}</td> <td>{{b.description}}</td>
+<tr *ngFor="let b of bookmarks"   #t>
+    <td ><a [routerLink]="['/heroo', b.id]">eeee</a> </td> <td > {{b.title}}</td> <td>{{b.url}}</td> <td>{{b.description}}</td>
 </tr>
 </table>
