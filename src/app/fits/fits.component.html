@@ -1,0 +1,14 @@
+
+<style>
+  table { table-layout: fixed; }
+</style>
+ 
+<div width="500px"> 
+<table class="table table-bordered table-condensed"> 
+  <tr><th width="80%">Pattern</th><th width="10%">...</th><th width="10%">URL</th>
+     </tr>
+<tr *ngFor="let fit of fits" >
+  <td ><a [routerLink]="['/fits', fit.id]">{{fit.pattern}}</a> </td> 
+</tr>
+</table>
+</div>

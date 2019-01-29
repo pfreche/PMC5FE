@@ -1,0 +1,22 @@
+
+
+{{folder.title}}
+
+{{pathLocation(folder.storage_id,1)}}
+{{folder.lfolder}}
+{{folder.mpath}}
+
+<button (click)="dirlist = !dirlist"> Dirlist Toggle</button>
+
+<p>
+<a *ngIf="folder.bookmark" [routerLink]="['/bookmarks', folder.bookmark.id]">{{folder.bookmark.url}}</a>
+</p>
+
+<ng-container *ngIf="!dirlist" >
+        <app-mfiles></app-mfiles>
+</ng-container>
+    
+<ng-container *ngIf="dirlist" >
+    <app-dirlist [folder_id]="folder.id"></app-dirlist>
+</ng-container>
+

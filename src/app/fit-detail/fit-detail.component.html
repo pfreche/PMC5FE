@@ -1,0 +1,34 @@
+
+<form #f="ngForm" (ngSubmit)="submit(f)">
+  <input [value]="fit.id" hidden
+  [(ngModel)]="fit.id" name="id"/>
+
+  <input [value]="fit.bookmark_id" hidden 
+  [(ngModel)]="fit.bookmark_id" name="bookmark_id"/>
+  
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon3"> Pattern </span>
+    </div>
+    <input 
+    [(ngModel)]="fit.pattern" name="pattern" id="pattern" type="text" class="form-control">
+   </div>
+
+ 
+    <div *ngIf="fit.bookmark_id" class="form-group"> 
+      <a [routerLink]="['/bookmarks', fit.bookmark_id || 0]">Bookmark</a>
+    </div>
+    
+      <button class="btn btn-primary btn-sm" [disabled]="!f.valid" >save</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="cancel()" > Cancel</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="new()" > New</button>
+      <button type="button" class="btn btn-danger btn-sm" (click)="delete(f)" [disabled]="fit.id == undefined" > Delete</button>      
+      <button type="button" class="btn btn-primary btn-sm" (click)="newTworker(f,1)" [disabled]="fit.id == undefined" > new Tworker</button>      
+      <button type="button" class="btn btn-primary btn-sm" (click)="newTworker(f,2)" [disabled]="fit.id == undefined" > new "a"</button>      
+      <button type="button" class="btn btn-primary btn-sm" (click)="newTworker(f,3)" [disabled]="fit.id == undefined" > new "img"</button>      
+      
+</form>
+
+<app-tworkers   [fit_id]="fit.id" [changeBit]=changeBit> </app-tworkers>
+<app-bookmarks   [fit_id]="fit.id" [refresh]="refresh"> </app-bookmarks>

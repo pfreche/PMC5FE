@@ -2,6 +2,7 @@ import { Http } from '@angular/http';
 import { BcontrollerService } from './../bcontroller.service';
 import { Component, OnInit } from '@angular/core';
 import { Bookmark } from '../model/bookmark';
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'bookmark-form',
@@ -13,27 +14,51 @@ export class BookmarkFormComponent implements OnInit {
   created: boolean;
   updated: boolean;
   bookmark: Bookmark;
+  changeBit =  false;
 
-  constructor(private http:Http, private bc: BcontrollerService) { 
-    // bc.bookmarkSelected$.subscribe( title => {this.bookmark.title = title; console.log("title "+title) })  
+  constructor(private http:Http, private bc: BcontrollerService,
+              private route: ActivatedRoute,
+              private router: Router) { 
     bc.bookmarkSelected$.subscribe( bookmark => {
-      // this.bookmark = new Bookmark(bookmark.id, bookmark.title, bookmark.url, bookmark.description);
-      // // this.bookmark = new Bookmark();
-      // // this.bookmark = bookmark;
-      // this.bookmark.id = bookmark.id;
-      // this.bookmark.title = bookmark.title;
-      // this.bookmark.url = bookmark.url;
-      // this.bookmark.description = bookmark.description;
       this.bookmark = bookmark;
-      console.log("b title"+bookmark.title); 
-    })   
-    this.bookmark = new Bookmark(0,",","","");
+     })   
+    
+    this.bookmark = new Bookmark(0,"","","");
     this.created = false;
     this.updated = false;
+
+    this.route.queryParams.subscribe( params => {
+      let url = params['url'];
+      let title = params['title'];
+      if (url) {
+        this.bookmark.url = url;
+        this.bookmark.title = title;
+        console.log("url");
+        console.log(this.bookmark.url);
+      }
+    }
+    )
+
+    this.route.params.subscribe( params => {
+           console.log(params) ;
+          let id = +params['id'];
+
+          if (id) {
+          this.http.get("http://artful:3000/bookmarks/"+id)
+          .subscribe( response => {this.bookmark = response.json(); console.log(this.bookmark)});
+        }
+        }
+    );
+
+    
   }
    
     
   ngOnInit() {
+  }
+
+  ngDoCheck() {
+    
   }
  
   log(x) {
@@ -46,7 +71,7 @@ export class BookmarkFormComponent implements OnInit {
       console.log("id ="+id)
 
       if (id != undefined) {
-        this.http.put("http://artful:3000/greet/"+id,x.value)
+        this.http.put("http://artful:3000/bookmarks/"+id,x.value)
         .subscribe(response => {
           console.log(response.json()); 
           this.updated = true;
@@ -80,13 +105,38 @@ export class BookmarkFormComponent implements OnInit {
     console.log("id ="+id)
 
     if (id != undefined) {
-      this.http.delete("http://artful:3000/greet/"+id)
+      this.http.delete("http://artful:3000/bookmarks/"+id)
       .subscribe(response => {
         console.log(response.json());
         this.reloadList();
         open("http://www.google.de")
       })
     }
+  }
+
+  newFit(x) {
+    let fit = {id: null, bookmark_id: x.value.id, pattern: x.value.url}
+
+    this.http.post("http://artful:3000/fits/",fit)
+    .subscribe(response => {
+      this.created = true;
+      this.changeBit = !this.changeBit;
+    })
+  }
+
+  scan(url) {
+    console.log(url);
+    this.router.navigate(['/scanner'], { queryParams: { url: url } });
+  }
+
+
+
+
+
+  tryFit(id) {
+          this.http.get("http://artful:3000/bookmarks/"+id+"/fit")
+          .subscribe( response => {this.bookmark = response.json(); console.log(this.bookmark)});
+   
   }
 
 }

@@ -1,0 +1,73 @@
+<td ><a [routerLink]="['/fits', tworker.fit.id]">{{tworker.fit.pattern}}</a> </td> 
+
+
+<form #f="ngForm" (ngSubmit)="submit(f)">
+  <input [value]="tworker.id" hidden
+  [(ngModel)]="tworker.id" name="id"/>
+
+  <input [value]="tworker.fit_id" hidden 
+  [(ngModel)]="tworker.fit_id" name="fit_id"/>
+  
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon3"> Name </span>
+    </div>
+    <input 
+    [(ngModel)]="tworker.name" name="name" id="name" type="text" class="form-control">
+   </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon3"> Pattern </span>
+    </div>
+    <input 
+    [(ngModel)]="tworker.pattern" name="pattern" id="pattern" type="text" class="form-control">
+   </div>
+
+
+   <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon3"> Tag</span>
+    </div>
+    <input 
+    [(ngModel)]="tworker.tag" name="tag" id="tag" type="text" class="form-control">
+   </div>
+
+   <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon3"> Attr</span>
+    </div>
+    <input 
+    [(ngModel)]="tworker.attr" name="attr" id="attr" type="text" class="form-control">
+   </div>
+
+   <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon3"> Action</span>
+    </div>
+    <select 
+     [(ngModel)]="tworker.action" name="action" id="action" type="s" class="form-control">
+     <option value = "1">Medium to save</option>
+     <option value = "2">Fit and Scan URI</option>
+     <option value = "3">Save title</option>
+     <option value = "4">unkown</option>
+    </select>
+   </div>
+
+   <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon3"> Final-Flag</span>
+    </div>
+    <input 
+    [(ngModel)]="tworker.final" name="final" id="final" type="checkbox" class="form-control">
+     </div>
+
+
+   
+
+
+      <button class="btn btn-primary btn-sm" [disabled]="!f.valid" >save</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="new()" > New</button>
+      <button type="button" class="btn btn-danger btn-sm" (click)="delete(f)" [disabled]="tworker.id == undefined" > Delete</button>      
+      
+</form>

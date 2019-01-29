@@ -1,0 +1,14 @@
+
+
+{{mfile.id}}
+{{pathLocation(mfile.folder.storage_id,3)}}
+{{mfile.folder.mpath}}
+{{mfile.filename}}
+
+<a href='{{pathLocation(mfile.folder.storage_id,1)+ mfile.folder.mpath +mfile.filename}}'> 
+    <img src='{{tn}}'>
+</a>
+
+<button (click) ='generateTn()'> generate TN</button>
+<button (click) ='download()'> download</button>
+<div> -{{downloaded}} </div>

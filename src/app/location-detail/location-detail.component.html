@@ -1,0 +1,43 @@
+<div *ngIf="location">
+
+{{location.id}}
+{{location.name}}
+{{location.uri}}
+
+<form #f="ngForm" (ngSubmit)="submit(f)">
+    <input [value]="location.id" hidden
+    [(ngModel)]="location.id" name="id" #aa="ngModel" />
+    
+    <div class="form-group">
+      <label for="bname"> Name </label>
+      <input  
+      [(ngModel)]="location.name" name="name" #aa="ngModel" id="name" type="text" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="bnamee"> Url </label>
+        <input 
+        [(ngModel)]="location.uri" name="uri"  #aa="ngModel" id="uri" type="text" class="form-control">
+      </div>
+
+      <div class="form-group">
+          <label for="bnamee"> Description </label>
+          <input  
+          [(ngModel)]="location.description" name="des"  #aa="ngModel" id="des" type="text" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="bnamee"> In Use </label>
+            <input  type="checkbox"
+            [(ngModel)]="location.inuse" name="inuse"  #aa="ngModel" id="inuse" >
+          </div>
+        
+      <p>{{f.value |json}}</p>
+        <button class="btn btn-primary" [disabled]="!f.valid" >save</button>
+        <button type="button" class="btn btn-primary" (click)="cancel()" > Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="new()" > New</button>
+        <button type="button" class="btn btn-primary" (click)="delete(f)" [disabled]="location.id == undefined" > Delete</button>
+  
+  </form>
+
+</div>

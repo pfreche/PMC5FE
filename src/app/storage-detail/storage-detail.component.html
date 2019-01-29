@@ -1,0 +1,21 @@
+<p>
+Storage
+</p>
+
+{{storage.id}}
+{{storage.name}}
+
+<a [routerLink]="['/folders/storage', storage.id]"> Show Folders of this Storage</a>  
+   
+<table> 
+    <tr><th colspan = 5>Locations</th></tr>
+    <tr><th>ID</th><th>Name</th><th>URI</th><th>typ</th></tr>
+  <tr *ngFor="let location of storage.locations"  #t>
+    <td ><a [routerLink]="['/location', location.id]">{{location.id}}</a> </td> 
+    <td > {{location.name}}</td>
+    <td > {{location.uri}}</td>
+    <td > {{location.typ}}</td>
+    <td > {{location.inuse}}</td>
+  </tr>
+  </table>
+  

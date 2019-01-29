@@ -1,4 +1,33 @@
 <!-- <countdown [seconds]=13.21></countdown> -->
 
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand">Angular Router</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="#">Item 1</a>
+              </li>
+        
+              <li class="nav-item">
+                <a class="nav-link" href="#">Item 2</a>
+              </li>
+            </ul>
+          </div>
+          <ul class="nav navbar-nav" routerLinkActive="active">
+            <li class="nav-item"><a class="nav-link" routerLink="bookmarks">Bookmarks</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="folders">Folders</a></li>
+            <li class="nav-item"><a class="nav-link" (click)="nextFolder()">Next Folder</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="mfiles">Mfiles</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="storages">Storages</a></li>
+                  </ul>
+    </div>
+</nav>
+
+
+<ngb-alert type="success" [dismissible]="false">
+    Bootstrap is working!
+  </ngb-alert>
 
 <router-outlet></router-outlet>
+
