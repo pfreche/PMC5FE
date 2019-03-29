@@ -3,18 +3,21 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import {Response} from '@angular/http';
 import { Router } from '@angular/router';
+import { environment } from './../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MediaService {
 
-  apiUrl = "http://artful:3000/";
+  apiUrl = environment.baseUrl; 
+
   locations: any[];
   loc: Bookmark[];
   counter = 1;
   folder_id: number;
   storage_id: number;
+  aee: number;
 
   constructor(private http: Http, private router: Router) {
     this.loadLocations();
@@ -45,6 +48,11 @@ export class MediaService {
   loadFolder(id: number) {
     return this.http.get(this.apiUrl+"folders/"+id)
   }
+
+  deleteFolder(id: number) {
+    return this.http.delete(this.apiUrl+"folders/"+id)
+  }
+
 
   download(id: number) {
     return this.http.get(this.apiUrl+"mfiles/"+id+"/download")
@@ -77,6 +85,13 @@ export class MediaService {
   loadLocation(location_id) {
     return this.http.get(this.apiUrl+"locations/"+location_id)
   }
+  newLocationForStorage(storage_id){
+    return this.http.put(this.apiUrl+"storages/"+storage_id+"/newLocation","aaa")
+  }
+  
+  newLocation(location) {
+    return this.http.post(this.apiUrl+"locations/",location)
+  }
 
   match(url) {
     return this.http.get(this.apiUrl+"urlmatcher/?url="+url)
@@ -87,5 +102,10 @@ export class MediaService {
     this.folder_id++;
     this.router.navigate(['/folders',this.folder_id]);
   }
+
+ enhance(folder) {
+  return this.http.get(this.apiUrl+"folders/"+folder.id+"/enhance")
+
+ }
 
 }

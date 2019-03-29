@@ -5,7 +5,7 @@
 </style>
    
 
-<input type="text" [(ngModel)]="search"  (change)="filter" class="form-control">
+<input type="text" [(ngModel)]="searchInput"  (ngModelChange)="setSearch()" class="form-control">
 <div width="500px"> 
 <table class="table table-bordered table-condensed"> 
     <tr><th width="30%">title</th><th width="60%">URL</th>
@@ -14,7 +14,8 @@
 <ng-container *ngIf="search =='' || b.title && b.title.includes(search)">
     <td ><a [routerLink]="['/bookmarks', b.id]">{{b.title}}</a> </td> 
     <td><a href='{{b.url}}' target="_blank">{{b.url}}</a></td>
-         <td *ngIf="b.folder_id"><a [routerLink]="['/mfiles/folder', b.folder_id || 0]">folder</a></td>
+         <td><ng-container *ngIf="b.folder_id">
+             <a [routerLink]="['/folders', b.folder_id || 0]">folder</a></ng-container></td>
          <td><a [routerLink]="['/scanner']"  [queryParams]="{url: b.url}">Scan</a></td>
  </ng-container>
 </tr>

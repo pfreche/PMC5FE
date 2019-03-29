@@ -5,14 +5,14 @@
  
 <div width="500px"> 
 <table class="table table-bordered table-condensed"> 
-  <tr><th width="5%"></th>
+  <tr><th width="20%"></th>
     <th width="15%">Name</th>
     <th width="10%">Tag</th>
     <th width="10%">Attribute</th>
-    <th width="40%">Pattern</th>
+    <th width="30%">Pattern</th>
     <th width="20%">Action</th>
     <th width="5%">Final</th>
-    <th width="10%">Fit_id</th>
+    <th width="11%">Fit_id</th>
      </tr>
 
 <ng-container *ngIf="fit_id">
@@ -39,7 +39,7 @@
 
 <ng-container *ngIf="!fit_id">
   <tr *ngFor="let tworker of tworkers" >
-    <td> </td>
+    <td > {{tworker.fit.pattern}} </td> 
     <td ><a [routerLink]="['/tworkers', tworker.id]">{{tworker.name}}</a> </td> 
     <td > {{tworker.tag}} </td> 
     <td > {{tworker.attr}} </td> 

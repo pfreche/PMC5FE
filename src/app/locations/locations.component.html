@@ -1,0 +1,60 @@
+<style>
+  table {
+    table-layout: fixed;
+  }
+</style>
+
+<div width="500px">
+  <table class="table table-bordered table-condensed">
+    <tr>
+        <th width="5%">Link</th>
+        <th width="15%">Name</th>
+      <th width="25%">Uri</th>
+      <th width="15%">Description </th>
+      <th width="15%">Typ</th>
+      <th width="8%">In Use</th>
+      <th width="7%">Origin</th>
+    </tr>
+
+    <ng-container *ngIf="storage_id">
+        <tr *ngFor="let location of locations">
+            <td><a [routerLink]="['/location', location.id]">De</a> </td>
+        <td> <input [(ngModel)]="location.name" name="name" id="name" type="text" class="form-control"> </td>
+        <td> <input [(ngModel)]="location.uri" name="uri" id="uri" type="text" class="form-control"> </td>
+        <td> <input [(ngModel)]="location.description" name="description" id="description" type="text" class="form-control"> </td>
+        <td> <select [(ngModel)]="location.typ" name="typ" id="typ" type="s" class="form-control">
+            <option value="1">Web Server</option>
+            <option value="2">File System</option>
+            <option value="3">TN Web Server</option>
+            <option value="4">TN File System</option>
+          </select>
+        </td>
+        <td> <input [(ngModel)]="location.inuse" name="inuse" id="inuse" type="checkbox" class="form-control">
+        </td>
+        <td> <input [(ngModel)]="location.origin" name="origin" id="origin" type="checkbox" class="form-control">
+        </td>
+        <td><button type="button" class="btn btn-primary btn-sm" (click)="update(location)"> Update</button>
+        </td>
+        <td><button type="button" class="btn btn-danger btn-sm" (click)="delete(location)"> Delete</button>
+        </td>
+      </tr>
+    </ng-container>
+
+    <ng-container *ngIf="!storage_id">
+
+
+      <tr *ngFor="let location of locations">
+        <td><a [routerLink]="['/location', location.id]">{{location.name}}</a> </td>
+        <td> {{location.uri}} </td>
+        <td> {{location.description}} </td>
+        <td> {{location.typ}} </td>
+        <td> {{location.inuse}} </td>
+        <td> {{location.origin}} </td>
+
+      </tr>
+
+    </ng-container>
+
+
+  </table>
+</div>

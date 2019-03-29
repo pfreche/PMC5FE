@@ -3,9 +3,10 @@
 {{mfile.id}}
 {{pathLocation(mfile.folder.storage_id,3)}}
 {{mfile.folder.mpath}}
+{{mfile.folder.lfolder}}
 {{mfile.filename}}
 
-<a href='{{pathLocation(mfile.folder.storage_id,1)+ mfile.folder.mpath +mfile.filename}}'> 
+<a href='{{pathLocation(mfile.folder.storage_id,1)+ mfile.folder.mpath +mfile.folder.lfolder+"/"+mfile.filename}}' target="ssss"> 
     <img src='{{tn}}'>
 </a>
 

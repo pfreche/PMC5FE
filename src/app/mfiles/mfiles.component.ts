@@ -52,9 +52,9 @@ export class MfilesComponent implements OnInit {
   }
 
   mfilePath(mfile: Mfile) {
-      var res = /JPG|png|PNG/;
+      var res = /JPG|png|PNG|jpeg|JPEG/;
       var a = mfile.filename.replace(res, "jpg");
-      return this.pathLocation(mfile.folder.storage_id,3)+ mfile.folder.mpath +a 
+      return this.pathLocation(mfile.folder.storage_id,3)+ mfile.folder.mpath + mfile.folder.lfolder + a 
   }
 
   download() {

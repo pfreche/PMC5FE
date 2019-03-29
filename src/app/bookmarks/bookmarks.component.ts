@@ -1,6 +1,7 @@
+import { environment } from './../../environments/environment';
 import { Bookmark } from './../model/bookmark';
 import { BcontrollerService } from './../bcontroller.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SystemJsNgModuleLoader } from '@angular/core';
 import {Http, Response} from '@angular/http';
 
 
@@ -12,11 +13,14 @@ import {Http, Response} from '@angular/http';
 export class BookmarksComponent implements OnInit {
 
   @Input() fit_id: number;
+  @Input() parentBookmark_id: number;
   @Input() refresh: boolean;
 
   bookmarks: string;
   bookmark: string;
   search: string;
+  searchInput: string;
+  baseUrl = environment.baseUrl;
 
   constructor(private http: Http, private bc: BcontrollerService) { 
 //    bc.reloadSource$.subscribe( s => {
@@ -41,19 +45,33 @@ export class BookmarksComponent implements OnInit {
   }
 
   load() {
-    if (this.fit_id) {
+    if (this.fit_id || this.parentBookmark_id) {  // do nothing since it loaded via ngOnChanges
     } else {
-    this.http.get("http://artful:3000/bookmarks")
+    this.http.get(this.baseUrl+"bookmarks")
     .subscribe((bookmarks: Response) => {this.bookmarks = bookmarks.json(); console.log(this.bookmarks)});
   }
 }
 
   filter() {
+  }
 
+  setSearch() {
+    setTimeout(() => { this.search = this.searchInput; 
+          }, 1000);
   }
 
  ngOnChanges() {
-   this.http.get("http://artful:3000/fits/"+this.fit_id+"/bookmarks")
-   .subscribe((bookmarks: Response) => {this.bookmarks = bookmarks.json(); });
-}
+
+  if (this.fit_id) {
+     this.http.get(this.baseUrl+"fits/"+this.fit_id+"/bookmarks")
+     .subscribe((bookmarks: Response) => {this.bookmarks = bookmarks.json(); });
+   }
+
+   if (this.parentBookmark_id) {
+    this.http.get(this.baseUrl+"bookmarks/"+this.parentBookmark_id+"/getChildren")
+    .subscribe((bookmarks: Response) => {this.bookmarks = bookmarks.json(); });
+  }
+
+  }
+
 }

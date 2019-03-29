@@ -8,7 +8,7 @@
 
   <div class="input-group mb-3">
     <div class="input-group-prepend">
-      <span class="input-group-text" id="basic-addon3"> Title </span>
+      <span class="input-group-text" id="basic-addon3"> <a [routerLink]="" (click)="getTitle()">Title</a> </span>
     </div>
     <input  [value]="bookmark.title"
     [(ngModel)]="bookmark.title" name="title" #aa="ngModel" (change)="log(aa)" id="title" type="text" class="form-control">
@@ -30,9 +30,6 @@
     <input  [(ngModel)]="bookmark.description" name="description" id="url" cols="20" rows="10" [value]="bookmark.description" class="form-control">
     </div>
    
-    <div *ngIf="bookmark.folder_id" class="form-group"> 
-      <a [routerLink]="['/folders', bookmark.folder_id || 0]">Folder</a>
-    </div>
     
       <button class="btn btn-primary btn-sm" [disabled]="!f.valid" >save</button>
       <button type="button" class="btn btn-primary btn-sm" (click)="cancel()" > Cancel</button>
@@ -44,10 +41,24 @@
       <p>{{f.value |json}}</p>
 
 </form>
+
+<div *ngIf="bookmark.folder_id" class="form-group"> 
+  <a [routerLink]="['/folders', bookmark.folder_id || 0]">Folder</a>
+</div>
+
+<div *ngIf="bookmark.bookmark_id">
+    <a [routerLink]="['/bookmarks', bookmark.bookmark_id]">Parent</a>
+  </div>
+  
+
 <div *ngIf="false">
 <app-url-matcher [url]="bookmark.url"></app-url-matcher>
 </div>
 
 <div *ngIf="bookmark.id">
 <app-fits  [bookmark_id]="bookmark.id" [changeBit]="changeBit"></app-fits>
+Children:
+<app-bookmarks [parentBookmark_id]="bookmark.id" [refresh]="refresh"> </app-bookmarks>
 </div>
+
+

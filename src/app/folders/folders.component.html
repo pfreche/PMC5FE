@@ -1,13 +1,12 @@
 
+<h1 *ngIf="storage">Storage: {{storage.name}}</h1>
 
 <table> 
-  <tr><th>ID</th><th>Storage</th><th>mpath</th><th>den</th></tr>
+  <tr><th>Lfolder/Mpath</th><th>Title</th><th>mpath</th><th>den</th></tr>
 <tr *ngFor="let f of folders"  #t>
-  <td ><a [routerLink]="['/folders', f.id]">{{f.id}}</a> </td> 
-  <td > {{f.storage_id}}</td> 
-  <td > {{f.lfolder}}</td> 
-  <td > {{f.mfile_id}}</td> 
-  <td > {{f.title}}</td>
+  <td ><a [routerLink]="['/folders', f.id]">{{f.lfolder}} -  {{f.mpath}}</a> </td> 
+  <td (click)="enhance(f)"> {{f.title}} </td>
   <td>  {{pathLocation(f.storage_id,3)}}</td>
+  <td > {{f.storage_id}}</td> 
 </tr>
 </table>

@@ -1,12 +1,14 @@
 
 
-{{folder.title}}
+{{folder.title}} : 
 
-{{pathLocation(folder.storage_id,1)}}
-{{folder.lfolder}}
-{{folder.mpath}}
+Loc: {{pathLocation(folder.storage_id,1)}}
+Lfol: {{folder.lfolder}}
+Mpath: {{folder.mpath}}
 
 <button (click)="dirlist = !dirlist"> Dirlist Toggle</button>
+<button (click)="deleteFolder(folder.id)"> Delete Folder</button>
+
 
 <p>
 <a *ngIf="folder.bookmark" [routerLink]="['/bookmarks', folder.bookmark.id]">{{folder.bookmark.url}}</a>

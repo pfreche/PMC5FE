@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { Http } from '@angular/http';
 import { Component, OnInit, Input } from '@angular/core';
@@ -11,6 +12,7 @@ import { routerNgProbeToken } from '@angular/router/src/router_module';
 export class TworkerDetailComponent implements OnInit {
 
   tworker: any;
+  baseUrl = environment.baseUrl;
 
   constructor(private http:Http, private route: ActivatedRoute) { 
   }
@@ -21,7 +23,7 @@ export class TworkerDetailComponent implements OnInit {
      let id = +params['id'];
 
      if (id) {
-        this.http.get("http://artful:3000/tworkers/"+id)
+        this.http.get(this.baseUrl+"tworkers/"+id)
             .subscribe( response => {this.tworker = response.json();});
      }
    }
@@ -31,11 +33,11 @@ export class TworkerDetailComponent implements OnInit {
   submit(x) {
     let id = x.value.id
     if (id != undefined) {
-      this.http.put("http://artful:3000/tworkers/"+id,x.value)
+      this.http.put(this.baseUrl+"tworkers/"+id,x.value)
       .subscribe(response => {
       })
     } else {
-      this.http.post("http://artful:3000/tworkers/",x.value)
+      this.http.post(this.baseUrl+"tworkers/",x.value)
       .subscribe(response => {
       })
     }
@@ -48,7 +50,7 @@ export class TworkerDetailComponent implements OnInit {
   delete(x) {
     let id = x.value.id
     if (id != undefined) {
-      this.http.delete("http://artful:3000/tworkers/"+id)
+      this.http.delete(this.baseUrl+"tworkers/"+id)
       .subscribe(response => {
         x.value.id = null
  //       open("http://www.google.de")

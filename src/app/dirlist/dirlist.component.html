@@ -1,6 +1,33 @@
+<div> Location: {{location.name}}</div>
 <div> {{relpath}} </div>
-<div *ngFor="let d of list" (click)=subdir(d)>
- {{d}}
- 
+<div *ngIf="location_id">
+  <button (click)="addFolder(relpath)">Add Folder </button>
 </div>
 
+
+
+<table>
+  <tr>
+    <th>Typ</th>
+    <th>Name</th>
+    <th>Folder Title</th>
+    <th>Action</th>
+  </tr>
+  <tr *ngFor="let d of list">
+   <td>   <span>{{d.state}}</span>
+   </td>
+    <td>
+      <span *ngIf="d.isDir">
+        <a [routerLink]="" (click)="subdir(d.file)">{{d.file}}</a>
+      </span>
+      <span *ngIf="!d.isDir"> {{d.file}}</span>
+    </td>
+    <td>      <span *ngIf="+d.state ==2">
+        <a [routerLink]="['/folders', d.folder_id]">{{d.title}} </a></span>
+    </td>
+    <td >   <button *ngIf="+d.state ==1" (click)="addFolder(relpath+'/'+d.file)"> Add folder </button>
+      <button *ngIf="+d.state ==2"> Scan folder </button>
+     </td>
+    <td></td>
+  </tr>
+</table>

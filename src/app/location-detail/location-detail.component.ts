@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { Http } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
@@ -11,6 +12,8 @@ import { MediaService } from '../media.service';
 export class LocationDetailComponent implements OnInit {
 
   location: any;
+  baseUrl = environment.baseUrl;
+  dirlist = false;
    
   constructor(private http: Http, private mediaService: MediaService, private route: ActivatedRoute) { 
   }
@@ -32,12 +35,12 @@ export class LocationDetailComponent implements OnInit {
     console.log("id ="+id)
 
     if (id != undefined) {
-      this.http.put("http://artful:3000/locations/"+id,x.value)
+      this.http.put(this.baseUrl+"locations/"+id,x.value)
       .subscribe(response => {
         console.log(response.json()); 
       })
     } else {
-      this.http.post("http://artful:3000/locations/create",x.value)
+      this.http.post(this.baseUrl+"locations/create",x.value)
       .subscribe(response => {
         console.log(response.json())
       })

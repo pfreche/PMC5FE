@@ -24,6 +24,13 @@
     [(ngModel)]="tworker.pattern" name="pattern" id="pattern" type="text" class="form-control">
    </div>
 
+   <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon3"> Formula </span>
+    </div>
+    <input 
+    [(ngModel)]="tworker.formular" name="formular" id="formular" type="text" class="form-control">
+   </div>
 
    <div class="input-group mb-3">
     <div class="input-group-prepend">
@@ -50,7 +57,8 @@
      <option value = "1">Medium to save</option>
      <option value = "2">Fit and Scan URI</option>
      <option value = "3">Save title</option>
-     <option value = "4">unkown</option>
+     <option value = "4">Save Parent Bookmark</option>
+     <option value = "5">unkown</option>
     </select>
    </div>
 

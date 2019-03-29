@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { Http } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -14,6 +15,8 @@ export class ScannerComponent implements OnInit {
   level = 1;
   location: string;
   folder: any;
+  status: number;
+  baseUrl = environment.baseUrl;
 
   constructor(private http:Http, private route: ActivatedRoute) { 
   }
@@ -32,24 +35,28 @@ export class ScannerComponent implements OnInit {
   }
 
     scan(level) {
-      this.http.get("http://artful:3000/scanner/?url="+this.url+"&level="+level)
-      .subscribe( response => {this.result = response.json();});  
+      this.status = null
+      this.http.get(this.baseUrl+"scanner/?url="+this.url+"&level="+level)
+      .subscribe( response => {this.result = response.json();this.status = response.status},
+                  error => {this.status = error.status});  
     }
 
     scanAndLocate() {
-      this.http.get("http://artful:3000/scanner/?url="+this.url+"&level="+3+"&locate=x")
-      .subscribe( response => {this.location = response.json();});  
+      this.status = null
+      this.http.get(this.baseUrl+"scanner/?url="+this.url+"&level="+3+"&locate=x")
+      .subscribe( response => {this.location = response.json();this.status = response.status});  
     }
  
     scanSaveInLocation(location_id) {
-      this.http.post("http://artful:3000/scanner/", {url: this.url, location_id: location_id})
-      .subscribe( response => {this.folder = response.json();});
+      this.status = null
+      this.http.post(this.baseUrl+"scanner/", {url: this.url, location_id: location_id})
+      .subscribe( response => {this.folder = response.json();this.status = response.status});
     }
  
     newFit() {
       let fit = {pattern: this.url}
   
-      this.http.post("http://artful:3000/fits/",fit)
+      this.http.post(this.baseUrl+"fits/",fit)
       .subscribe(response => {
          this.scan(this.level);
       })

@@ -30,7 +30,8 @@ export class MfileDetailComponent implements OnInit {
             var res = /JPG|png|PNG/;
             var a = this.mfile.filename.replace(res, "jpg");
             console.log( " a =",a)
-            this.tn = this.pathLocation(this.mfile.folder.storage_id,3)+ this.mfile.folder.mpath +a 
+            this.tn = this.pathLocation(this.mfile.folder.storage_id,3)
+                    + this.mfile.folder.mpath + this.mfile.folder.lfolder + a 
         });
       }
     }

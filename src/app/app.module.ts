@@ -25,6 +25,7 @@ import { FitsComponent } from './fits/fits.component';
 import { TworkerDetailComponent } from './tworker-detail/tworker-detail.component';
 import { TworkersComponent } from './tworkers/tworkers.component';
 import { ScannerComponent } from './scanner/scanner.component';
+import { LocationsComponent } from './locations/locations.component';
 
 
 const routes: Routes = [
@@ -39,12 +40,14 @@ const routes: Routes = [
   {path: 'folders/storage/:id', component: FoldersComponent},
   {path: 'storages', component: StoragesComponent},
   {path: 'storage/:id', component: StorageDetailComponent},
+  {path: 'locations', component: LocationsComponent},
   {path: 'location/:id', component: LocationDetailComponent},
   {path: 'fits', component: FitsComponent},
   {path: 'fits/:id', component: FitDetailComponent},
   {path: 'tworkers', component: TworkersComponent},
   {path: 'tworkers/:id', component: TworkerDetailComponent},
   {path: 'scanner', component: ScannerComponent},
+  {path: 'location/:id/fs', component: DirlistComponent},
 ]
 
 
@@ -68,6 +71,7 @@ const routes: Routes = [
     TworkerDetailComponent,
     TworkersComponent,
     ScannerComponent,
+    LocationsComponent,
   ],
   imports: [
     BrowserModule,

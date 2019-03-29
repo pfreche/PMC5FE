@@ -1,21 +1,37 @@
-<p>
-Storage
-</p>
 
-{{storage.id}}
-{{storage.name}}
+<form #f="ngForm" (ngSubmit)="submit(f)">
+    <input [value]="storage.id" hidden
+    [(ngModel)]="storage.id" name="id"/>
+    
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon3"> Name </span>
+      </div>
+      <input 
+      [(ngModel)]="storage.name" name="name" id="namee" type="text" class="form-control">
+     </div>
+            
+     <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon3"> Mtype </span>
+        </div>
+        <input 
+        [(ngModel)]="storage.mtype" name="mtype" id="mtype" type="text" class="form-control">
+       </div>
+  
+     <button class="btn btn-primary btn-sm" [disabled]="!f.valid" >save</button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="cancel()" > Cancel</button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="new()" > New</button>
+        <button type="button" class="btn btn-danger btn-sm" (click)="delete(f)" [disabled]="storage.id == undefined" > Delete</button>      
+        <button type="button" class="btn btn-primary btn-sm" (click)="newLocation(1)" [disabled]="storage.id == undefined" > New Web Location</button>      
+        <button type="button" class="btn btn-primary btn-sm" (click)="newLocation(2)" [disabled]="storage.id == undefined" > New FS Location</button>      
+        <button type="button" class="btn btn-primary btn-sm" (click)="newLocation(3)" [disabled]="storage.id == undefined" > New Web TN Location</button>      
+        <button type="button" class="btn btn-primary btn-sm" (click)="newLocation(4)" [disabled]="storage.id == undefined" > New FS TN Location</button>      
+        
+  </form>
+  
 
 <a [routerLink]="['/folders/storage', storage.id]"> Show Folders of this Storage</a>  
-   
-<table> 
-    <tr><th colspan = 5>Locations</th></tr>
-    <tr><th>ID</th><th>Name</th><th>URI</th><th>typ</th></tr>
-  <tr *ngFor="let location of storage.locations"  #t>
-    <td ><a [routerLink]="['/location', location.id]">{{location.id}}</a> </td> 
-    <td > {{location.name}}</td>
-    <td > {{location.uri}}</td>
-    <td > {{location.typ}}</td>
-    <td > {{location.inuse}}</td>
-  </tr>
-  </table>
-  
+
+
+<app-locations  [storage_id]="id" [changeBit]="changeBit"></app-locations>

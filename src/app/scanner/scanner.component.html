@@ -14,7 +14,10 @@
  <button type="button" class="btn btn-primary btn-sm" (click)="scanAndLocate()" > Scan and locate</button>
  <button type="button" class="btn btn-primary btn-sm" (click)="newFit()" > New Fit</button>
  
- <div *ngIf="location">  Location: {{location.commonstart}}
+ <div *ngIf="status">  Status: {{status}}
+</div>
+
+<div *ngIf="location">  Location: {{location.commonstart}}
     <div *ngFor="let location of location.locations" >
       <button type="button" class="btn btn-danger btn-sm" (click)="scanSaveInLocation(location.id)" > 
         Save with {{location.uri}}</button>   
@@ -42,6 +45,7 @@
   <td *ngIf="r[1].fit_id"> ----- <a [routerLink]="['/fits',r[1].fit_id]" >{{r[0]}}</a> </td>
   <td > {{r[1].level}} </td>  
   <td > {{r[1].action}} </td>  
+  <td > {{r[1].scanned}} </td>  
 </tr>
 </table>
 </div>

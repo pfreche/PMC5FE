@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { Router } from '@angular/router';
 import { Http, Response } from '@angular/http';
 import { Component, OnInit, Input } from '@angular/core';
@@ -11,6 +12,7 @@ export class FitsComponent implements OnInit {
 
   fits: any;
   bookmarks: any;
+  baseUrl = environment.baseUrl;
 
   @Input() bookmark_id: number;
   @Input() changeBit: boolean;
@@ -25,22 +27,21 @@ export class FitsComponent implements OnInit {
     }
   }
   tryFit(bookmark_id) {
-    this.http.get("http://artful:3000/bookmarks/"+bookmark_id+"/fit")
+    this.http.get(this.baseUrl+"bookmarks/"+bookmark_id+"/fit")
     .subscribe((r: Response) => {
       this.fits = r.json(); console.log(this.fits)});
 
   }
 
   load() {
-    this.http.get("http://artful:3000/fits")
+    this.http.get(this.baseUrl+"fits")
     .subscribe((r: Response) => {
       this.fits = r.json(); console.log(this.fits)});
   }
 
 
-
   scan_bak(fit_id) {
-    this.http.get("http://artful:3000/fits/"+fit_id+"/bookmarks")
+    this.http.get(this.baseUrl+"fits/"+fit_id+"/bookmarks")
     .subscribe((r: Response) => {
       this.bookmarks = r.json(); });
 
@@ -51,6 +52,3 @@ export class FitsComponent implements OnInit {
   }
 
 }
-
-
-

@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { Http } from '@angular/http';
 import { BcontrollerService } from './../bcontroller.service';
 import { Component, OnInit } from '@angular/core';
@@ -15,6 +16,7 @@ export class BookmarkFormComponent implements OnInit {
   updated: boolean;
   bookmark: Bookmark;
   changeBit =  false;
+  baseUrl = environment.baseUrl
 
   constructor(private http:Http, private bc: BcontrollerService,
               private route: ActivatedRoute,
@@ -44,7 +46,7 @@ export class BookmarkFormComponent implements OnInit {
           let id = +params['id'];
 
           if (id) {
-          this.http.get("http://artful:3000/bookmarks/"+id)
+          this.http.get(this.baseUrl+"bookmarks/"+id)
           .subscribe( response => {this.bookmark = response.json(); console.log(this.bookmark)});
         }
         }
@@ -71,16 +73,17 @@ export class BookmarkFormComponent implements OnInit {
       console.log("id ="+id)
 
       if (id != undefined) {
-        this.http.put("http://artful:3000/bookmarks/"+id,x.value)
+        this.http.put(this.baseUrl+"bookmarks/"+id,x.value)
         .subscribe(response => {
           console.log(response.json()); 
           this.updated = true;
           this.reloadList();
         })
       } else {
-        this.http.post("http://artful:3000/greet/create",x.value)
+        this.http.post(this.baseUrl+"bookmarks/create",x.value)
         .subscribe(response => {
           console.log(response.json())
+          this.bookmark = response.json();
           this.created = true;
           this.reloadList();
         })
@@ -105,11 +108,11 @@ export class BookmarkFormComponent implements OnInit {
     console.log("id ="+id)
 
     if (id != undefined) {
-      this.http.delete("http://artful:3000/bookmarks/"+id)
+      this.http.delete(this.baseUrl+"bookmarks/"+id)
       .subscribe(response => {
-        console.log(response.json());
+        this.bookmark.id = null
         this.reloadList();
-        open("http://www.google.de")
+//        open("http://www.google.de")
       })
     }
   }
@@ -117,7 +120,7 @@ export class BookmarkFormComponent implements OnInit {
   newFit(x) {
     let fit = {id: null, bookmark_id: x.value.id, pattern: x.value.url}
 
-    this.http.post("http://artful:3000/fits/",fit)
+    this.http.post(this.baseUrl+"fits/",fit)
     .subscribe(response => {
       this.created = true;
       this.changeBit = !this.changeBit;
@@ -129,14 +132,16 @@ export class BookmarkFormComponent implements OnInit {
     this.router.navigate(['/scanner'], { queryParams: { url: url } });
   }
 
-
-
-
-
   tryFit(id) {
-          this.http.get("http://artful:3000/bookmarks/"+id+"/fit")
+          this.http.get(this.baseUrl+"bookmarks/"+id+"/fit")
           .subscribe( response => {this.bookmark = response.json(); console.log(this.bookmark)});
    
+  }
+
+  getTitle() {
+       this.http.get(this.baseUrl+"bookmarks/"+this.bookmark.id+"/getTitle")
+       .subscribe( response => {this.bookmark.title = response.text(); console.log(response)});
+    
   }
 
 }

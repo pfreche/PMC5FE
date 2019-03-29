@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { Http } from '@angular/http';
 import { Component, OnInit, Input } from '@angular/core';
@@ -16,6 +17,7 @@ export class FitDetailComponent implements OnInit {
   created = false;
   changeBit =  false;
   refresh = false;
+  baseUrl = environment.baseUrl;
 
   constructor(private http:Http, private route: ActivatedRoute) { 
   }
@@ -26,7 +28,7 @@ export class FitDetailComponent implements OnInit {
      let id = +params['id'];
 
      if (id) {
-        this.http.get("http://artful:3000/fits/"+id)
+        this.http.get(this.baseUrl+"fits/"+id)
             .subscribe( response => {this.fit = response.json();});
      }
    }
@@ -37,13 +39,13 @@ export class FitDetailComponent implements OnInit {
   submit(x) {
     let id = x.value.id
     if (id != undefined) {
-      this.http.put("http://artful:3000/fits/"+id,x.value)
+      this.http.put(this.baseUrl+"fits/"+id,x.value)
       .subscribe(response => {
         console.log(response.json()); 
         this.updated = true;
       })
     } else {
-      this.http.post("http://artful:3000/fits/",x.value)
+      this.http.post(this.baseUrl+"fits/",x.value)
       .subscribe(response => {
         this.created = true;
       })
@@ -58,7 +60,7 @@ export class FitDetailComponent implements OnInit {
   delete(x) {
     let id = x.value.id
     if (id != undefined) {
-      this.http.delete("http://artful:3000/fits/"+id)
+      this.http.delete(this.baseUrl+"fits/"+id)
       .subscribe(response => {
         open("http://www.google.de")
       })
@@ -86,7 +88,7 @@ export class FitDetailComponent implements OnInit {
         tworker = {fit_id: id, tag: "title", attr: "", pattern: "(.*)", name: "Title", final: true} 
         break;
       }  
-    this.http.post("http://artful:3000/tworkers/",tworker)
+    this.http.post(this.baseUrl+"tworkers/",tworker)
     .subscribe(response => {
       this.changeBit = !this.changeBit
     })

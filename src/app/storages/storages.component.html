@@ -1,9 +1,10 @@
 <table> 
-    <tr><th>ID</th><th>Storage</th><th>mpath</th><th>den</th></tr>
+    <tr><th>ID</th><th>Storage</th><th>Mtype</th></tr>
   <tr *ngFor="let storage of storages"  #t>
     <td ><a [routerLink]="['/storage', storage.id]">{{storage.id}}</a> </td> 
     <td > {{storage.name}}</td>
     <td > {{storage.mtype}}</td>
+    <td ><a [routerLink]="['/folders/storage', storage.id]">Show Folders</a> </td> 
   </tr>
   </table>
   
