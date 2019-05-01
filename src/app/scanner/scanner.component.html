@@ -20,7 +20,7 @@
 <div *ngIf="location">  Location: {{location.commonstart}}
     <div *ngFor="let location of location.locations" >
       <button type="button" class="btn btn-danger btn-sm" (click)="scanSaveInLocation(location.id)" > 
-        Save with {{location.uri}}</button>   
+        Save with {{location.uri}} in Storage {{location.storage.name}} </button>   
   </div>
 </div>
 

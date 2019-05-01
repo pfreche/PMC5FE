@@ -16,8 +16,10 @@ export class MfilesComponent implements OnInit {
   show = true;
   caption = false;
   dl_counter = 0;
+  direction = 1;
   downloading = "";
 
+  
  constructor(private mediaService: MediaService, 
     private route: ActivatedRoute, private router: Router) { 
       console.log("constructor", this.show)
@@ -52,25 +54,32 @@ export class MfilesComponent implements OnInit {
   }
 
   mfilePath(mfile: Mfile) {
-      var res = /JPG|png|PNG|jpeg|JPEG/;
+      var res = /JPG|png|PNG|jpeg|JPEG|PDF|pdf/;
       var a = mfile.filename.replace(res, "jpg");
       return this.pathLocation(mfile.folder.storage_id,3)+ mfile.folder.mpath + mfile.folder.lfolder + a 
   }
 
   download() {
     this.dl_counter = 0;
+    this.direction = 1;
     this.downloadNext(0);
+  }
+ 
+  downloadReverse() {
+    this.dl_counter = this.mfiles.length-1;
+    this.direction = -1;
+    this.downloadNext(this.dl_counter);
   }
 
   downloadNext(i) {
-    this.downloading = this.mfiles[this.dl_counter].filename;
+    this.downloading = this.mfiles[this.dl_counter].filename + " "+i;
  
     this.mediaService.download(this.mfiles[this.dl_counter].id)
          .subscribe( response => { 
            console.log(this.mfiles[this.dl_counter].id, "downloaded", response.json()); 
            this.mfiles[this.dl_counter].filename = this.mfiles[this.dl_counter].filename+ "?r";
 
-           this.dl_counter = this.dl_counter + 1
+           this.dl_counter = this.dl_counter + this.direction;
            if(this.mfiles[this.dl_counter] ) {
            if (i< 1000) {this.downloadNext(i+1)} }
            else {

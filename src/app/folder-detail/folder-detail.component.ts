@@ -12,6 +12,8 @@ export class FolderDetailComponent implements OnInit {
 
   folder: any;
   dirlist: boolean;
+  locations: any[];
+  scanAndUpdate = ""
 
   constructor(private mediaService: MediaService,
     private route: ActivatedRoute, private router: Router) {
@@ -25,7 +27,7 @@ export class FolderDetailComponent implements OnInit {
       if (id) {
         this.mediaService.loadFolder(id)
           .subscribe(response => {
-          this.folder = response.json();
+            this.folder = response.json();
           })
       }
     }
@@ -40,8 +42,52 @@ export class FolderDetailComponent implements OnInit {
   deleteFolder(folder_id) {
     if (confirm("Really delete the folder?")) {
       return this.mediaService.deleteFolder(folder_id)
-        .subscribe(response => {  }
+        .subscribe(response => { });
     }
   }
-}
+
+
+  scanAndAddOriginLocation(folder_id) {
+    this.scanAndUpdate = "Update ongoing"
+    if (confirm("Really scan this folder?")) {
+      return this.mediaService.scanAndAddOriginLocation(folder_id)
+        .subscribe(response => {
+          this.mediaService.loadFolder(folder_id)
+            .subscribe(response => {
+              this.folder = response.json();
+              this.scanAndUpdate = "Update done"
+            })
+        });
+    }
+  }
+
+  getLocationsT2() {
+    return this.mediaService.getLocations()
+      .subscribe(response => {
+        this.locations = response.json();
+        this.locations = this.locations.filter(location => location.typ === 2)
+      });
+  }
+
+  moveToLocation(location_id) {
+    return this.mediaService.moveFolderToLocation(this.folder.id, location_id)
+      .subscribe(response => {
+        this.mediaService.loadFolder(this.folder.id)
+          .subscribe(response => {
+            this.folder = response.json();
+          })
+      });
+  }
+
+  addSuffix(bookmark_id) {
+    return this.mediaService.addSuffixToBookmarkURL(bookmark_id)
+      .subscribe(response => {
+        this.mediaService.loadFolder(this.folder.id)
+          .subscribe(response => {
+            this.folder = response.json();
+          })
+      });
+
+  }
+
 }

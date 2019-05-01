@@ -11,7 +11,6 @@ import { environment } from './../environments/environment';
 export class MediaService {
 
   apiUrl = environment.baseUrl; 
-
   locations: any[];
   loc: Bookmark[];
   counter = 1;
@@ -20,7 +19,13 @@ export class MediaService {
   aee: number;
 
   constructor(private http: Http, private router: Router) {
-    this.loadLocations();
+
+    let apiUrl = localStorage.getItem("apiUrl");
+    if (apiUrl) {
+      this.apiUrl = apiUrl
+      environment.baseUrl = apiUrl;
+    }
+   this.loadLocations();
     this.counter = this.counter +1;
     console.log("counter ",this.counter)
   }
@@ -30,7 +35,12 @@ export class MediaService {
       localStorage.setItem("location", JSON.stringify(this.locations));
     })
    }
+
+   getLocations() {
+    return this.http.get(this.apiUrl+"locations/");
+   }
    
+
    pathLocation(storage_id, typ) {
     let x = this.locations.filter(location => 
       (location.storage_id == storage_id && location.typ == typ && location.inuse)) 
@@ -52,6 +62,9 @@ export class MediaService {
   deleteFolder(id: number) {
     return this.http.delete(this.apiUrl+"folders/"+id)
   }
+  scanAndAddOriginLocation(id: number) {
+    return this.http.get(this.apiUrl+"folders/"+id+"/scanAndAddOriginLocation");
+  }
 
 
   download(id: number) {
@@ -72,6 +85,15 @@ export class MediaService {
   loadFolders() {
     return this.http.get(this.apiUrl+"folders/")
   }
+
+  moveFolderToLocation(folder_id, location_id) {
+    return this.http.put(this.apiUrl+"folders/"+folder_id+"/moveToLocation", {"targetLocation_id" : location_id} )
+  }
+
+  addSuffixToBookmarkURL(bookmark_id) {
+    return this.http.put(this.apiUrl+"bookmarks/"+bookmark_id+"/addSuffix", {"suffix" "?view=2"} );
+  }
+
   loadFoldersByStorage(storage_id) {
     this.storage_id = storage_id;
     return this.http.get(this.apiUrl+"folders/storage/"+storage_id)

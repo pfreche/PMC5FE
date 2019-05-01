@@ -2,7 +2,9 @@
 <button (click)="caption = !caption">Toggle caption</button>
 <button (click)="generateTns()"> generier Tns</button>
 <button (click)="download()"> Download all</button>
-{{downloading}}
+<button (click)="downloadReverse()"> Download all Reverse</button>
+{{downloading}} {{mfiles.length}} 
+
 <div *ngIf="show">
 
 <table> 

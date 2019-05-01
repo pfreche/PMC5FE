@@ -5,13 +5,17 @@
 Loc: {{pathLocation(folder.storage_id,1)}}
 Lfol: {{folder.lfolder}}
 Mpath: {{folder.mpath}}
+state: {{scanAndUpdate}}
 
 <button (click)="dirlist = !dirlist"> Dirlist Toggle</button>
 <button (click)="deleteFolder(folder.id)"> Delete Folder</button>
+<button (click)="scanAndAddOriginLocation(folder.id)"> Scan for new Mfiles from OriginLocation</button>
+<button (click)="getLocationsT2()"> Locations to move</button>
+<button *ngFor="let location of locations" (click)="moveToLocation(location.id)">{{location.uri}}</button>
 
-
-<p>
-<a *ngIf="folder.bookmark" [routerLink]="['/bookmarks', folder.bookmark.id]">{{folder.bookmark.url}}</a>
+<p *ngIf="folder.bookmark">
+<a [routerLink]="['/bookmarks', folder.bookmark.id]">{{folder.bookmark.url}}</a>
+ >>> <a [routerLink]="" (click)="addSuffix(folder.bookmark.id)">Suffix URL</a>
 </p>
 
 <ng-container *ngIf="!dirlist" >

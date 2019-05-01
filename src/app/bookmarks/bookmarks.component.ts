@@ -56,9 +56,10 @@ export class BookmarksComponent implements OnInit {
   }
 
   setSearch() {
-    setTimeout(() => { this.search = this.searchInput; 
-          }, 1000);
-  }
+//    setTimeout(() => { this.search = this.searchInput;  }, 1000);
+  this.http.get(this.baseUrl+"bookmarks?search="+this.searchInput)
+  .subscribe((bookmarks: Response) => {this.bookmarks = bookmarks.json(); console.log(this.bookmarks)});
+}
 
  ngOnChanges() {
 

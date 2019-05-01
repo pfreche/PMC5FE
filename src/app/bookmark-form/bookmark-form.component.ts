@@ -80,6 +80,7 @@ export class BookmarkFormComponent implements OnInit {
           this.reloadList();
         })
       } else {
+        console.log(x.value);
         this.http.post(this.baseUrl+"bookmarks/create",x.value)
         .subscribe(response => {
           console.log(response.json())

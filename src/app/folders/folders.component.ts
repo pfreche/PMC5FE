@@ -16,6 +16,8 @@ export class FoldersComponent implements OnInit {
    storage_id: number;
    storage: any;
 
+   sortByPath = false;
+
   constructor(private mediaService: MediaService, 
     private route: ActivatedRoute, private router: Router) { 
       console.log("foldersBy on constructor ", this.foldersBy)
@@ -45,10 +47,19 @@ export class FoldersComponent implements OnInit {
       return this.mediaService.pathLocation(storage_id, typ)
     }
 
-
    enhance(folder) {
     this.mediaService.enhance(folder)
     .subscribe((response: Response) => {folder= folder.json(); });
 
    }
+
+   sorte() {
+    this.sortByPath = !this.sortByPath
+    this.folders.sort((l,r) =>  {
+      if (l.mpath > r.mpath) return 1;
+      if (l.mpath < r.mpath) return -1;
+      return 0;
+    })
+  }
+
   }

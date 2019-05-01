@@ -1,7 +1,7 @@
 import { environment } from './../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { Http } from '@angular/http';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SystemJsNgModuleLoader } from '@angular/core';
 
 @Component({
   selector: 'app-fit-detail',
@@ -45,6 +45,8 @@ export class FitDetailComponent implements OnInit {
         this.updated = true;
       })
     } else {
+      console.log("llllllllllllllll");
+      console.log(x.value);
       this.http.post(this.baseUrl+"fits/",x.value)
       .subscribe(response => {
         this.created = true;
@@ -53,8 +55,8 @@ export class FitDetailComponent implements OnInit {
     this.refresh = !this.refresh;
 } 
 
-  new() {
-    this.fit.id = null;
+  new() { 
+    this.fit = {id: null, pattern: "eee"};
   }
 
   delete(x) {

@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: "http://osboxes:3000/"
-//  baseUrl: "http://soni:3000/"
+//  baseUrl: "http://osboxes:3000/"
+  baseUrl: "http://soni:3000/"
 };
 
 /*

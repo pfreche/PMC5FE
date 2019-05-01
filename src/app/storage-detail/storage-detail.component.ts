@@ -57,6 +57,14 @@ export class StorageDetailComponent implements OnInit {
     this.storage.id = null;
   }
 
+  deepCopy() {
+    this.http.post(this.baseUrl + "storages/"+this.storage.id+"/deepCopy", {id: this.storage.id})
+    .subscribe(response => {
+      this.storage = response.json();
+      this.router.navigate(['/storage', this.storage.id]);
+    });
+  }
+
   delete(x) {
     let id = x.value.id
     if (confirm("Are you sure to delete ")) {
