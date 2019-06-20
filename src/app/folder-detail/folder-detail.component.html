@@ -1,25 +1,42 @@
+<div> <button type="button" class="btn btn-primary">
+    {{folder.title}} 
+  </button>
+  <span class="border-right"></span>
 
+  <button type="button" class="btn btn-primary">
+    <span class="badge badge-light">L</span>
+    {{folder.lfolder}}
+    <span class="badge badge-light">M</span>
+    {{folder.mpath}}
+  </button>
+  <span class="border-right"></span>
 
-{{folder.title}} : 
+  <button type="button" class="btn btn-secondary  btn-sm">
+    {{pathLocation(folder.storage_id,1)}} 
+  </button>
+  <span class="border-right"></span>
 
-Loc: {{pathLocation(folder.storage_id,1)}}
-Lfol: {{folder.lfolder}}
-Mpath: {{folder.mpath}}
-state: {{scanAndUpdate}}
+   <button type="button" class="btn" [ngClass]="{'btn-danger': scanAndUpdate === 'Update ongoing','btn-success': scanAndUpdate === 'Update done'}  ">
+    {{scanAndUpdate}}
+  </button>
 
+</div>
+
+<p *ngIf="folder.bookmark">
+    <a [routerLink]="['/bookmarks', folder.bookmark.id]">{{folder.bookmark.url}}</a>
+    <span class="badge badge-light"><a [routerLink]="" (click)="addSuffix(folder.bookmark.id)">S</a></span>
+    </p>
+    
 <button (click)="dirlist = !dirlist"> Dirlist Toggle</button>
 <button (click)="deleteFolder(folder.id)"> Delete Folder</button>
 <button (click)="scanAndAddOriginLocation(folder.id)"> Scan for new Mfiles from OriginLocation</button>
 <button (click)="getLocationsT2()"> Locations to move</button>
 <button *ngFor="let location of locations" (click)="moveToLocation(location.id)">{{location.uri}}</button>
 
-<p *ngIf="folder.bookmark">
-<a [routerLink]="['/bookmarks', folder.bookmark.id]">{{folder.bookmark.url}}</a>
- >>> <a [routerLink]="" (click)="addSuffix(folder.bookmark.id)">Suffix URL</a>
-</p>
 
 <ng-container *ngIf="!dirlist" >
-        <app-mfiles></app-mfiles>
+        <app-mfiles [mfiles]="mfiles" ></app-mfiles>
+
 </ng-container>
     
 <ng-container *ngIf="dirlist" >

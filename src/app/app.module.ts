@@ -26,6 +26,8 @@ import { TworkerDetailComponent } from './tworker-detail/tworker-detail.componen
 import { TworkersComponent } from './tworkers/tworkers.component';
 import { ScannerComponent } from './scanner/scanner.component';
 import { LocationsComponent } from './locations/locations.component';
+import { AttributesComponent } from './attributes/attributes.component';
+import { PicFullscreenComponent } from './pic-fullscreen/pic-fullscreen.component';
 
 
 const routes: Routes = [
@@ -48,6 +50,7 @@ const routes: Routes = [
   {path: 'tworkers/:id', component: TworkerDetailComponent},
   {path: 'scanner', component: ScannerComponent},
   {path: 'location/:id/fs', component: DirlistComponent},
+  {path: 'attributes', component: AttributesComponent},
 ]
 
 
@@ -72,6 +75,8 @@ const routes: Routes = [
     TworkersComponent,
     ScannerComponent,
     LocationsComponent,
+    AttributesComponent,
+    PicFullscreenComponent,
   ],
   imports: [
     BrowserModule,

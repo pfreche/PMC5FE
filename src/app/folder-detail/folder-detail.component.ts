@@ -1,6 +1,8 @@
 import { MediaService } from './../media.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Mfile } from '../model/mfile';
+import { loadElement } from '@angular/core/src/render3/instructions';
 
 @Component({
   selector: 'app-folder-detail',
@@ -14,6 +16,7 @@ export class FolderDetailComponent implements OnInit {
   dirlist: boolean;
   locations: any[];
   scanAndUpdate = ""
+  mfiles: Mfile[];
 
   constructor(private mediaService: MediaService,
     private route: ActivatedRoute, private router: Router) {
@@ -28,6 +31,7 @@ export class FolderDetailComponent implements OnInit {
         this.mediaService.loadFolder(id)
           .subscribe(response => {
             this.folder = response.json();
+            this.loadMfiles();
           })
       }
     }
@@ -56,6 +60,7 @@ export class FolderDetailComponent implements OnInit {
             .subscribe(response => {
               this.folder = response.json();
               this.scanAndUpdate = "Update done"
+              this.loadMfiles();
             })
         });
     }
@@ -87,6 +92,12 @@ export class FolderDetailComponent implements OnInit {
             this.folder = response.json();
           })
       });
+
+  }
+  
+  loadMfiles() {
+    this.mediaService.loadMfilesByFolder(this.folder.id)
+    .subscribe(response => { this.mfiles = response.json(); });
 
   }
 

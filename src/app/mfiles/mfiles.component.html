@@ -1,36 +1,46 @@
-<button (click)="show = !show">{{show ? 'pics' : 'list'}}</button>
-<button (click)="caption = !caption">Toggle caption</button>
-<button (click)="generateTns()"> generier Tns</button>
-<button (click)="download()"> Download all</button>
-<button (click)="downloadReverse()"> Download all Reverse</button>
-{{downloading}} {{mfiles.length}} 
+<div>
+  <h5>{{mfiles.length}} Medien</h5>
+  <button (click)="show = !show">{{show ? 'pics' : 'list'}}</button>
+  <button (click)="caption = !caption">Toggle caption</button>
+  <button (click)="generateTns()"> generier Tns</button>
+  <button (click)="download()"> Download all</button>
+  <button (click)="downloadReverse()"> Download all Reverse</button>
+  {{downloading}}
 
-<div *ngIf="show">
+  <div *ngIf="show">
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Filename</th>
+        <th>UeeRL</th>
+        <th>den</th>
+      </tr>
+      <tr *ngFor="let m of mfiles" #t>
+        <td><a [routerLink]="['/mfile', m.id]">{{m.id}}</a> </td>
+        <td> {{m.filename}}</td>
+        <td> {{m.folder_id}}</td>
+      </tr>
+    </table>
+  </div>
 
-<table> 
-  <tr><th>ID</th><th>Filename</th><th>UeeRL</th><th>den</th></tr>
-<tr *ngFor="let m of mfiles"  #t>
-  <td ><a [routerLink]="['/mfile', m.id]">{{m.id}}</a> </td> <td > {{m.filename}}</td> 
-  <td > {{m.folder_id}}</td> 
-</tr>
-</table>
-</div>
+  <div *ngIf="!show">
 
-<div *ngIf="!show">
+    <div class="row">
+      <div *ngFor="let mfile of mfiles; let i = index" #t>
 
-  <div class="row">
-    <div *ngFor="let mfile of mfiles"  #t>
-      
-        <figure>
-          <a href='{{pathLocation(mfile.folder.storage_id,1)+ mfile.folder.mpath +mfile.filename}}' target='_blank' > 
-            <img src='{{mfilePath(mfile)}}'>
+        <figure style="margin-bottom: 0px; position: relative;" *ngIf="mfile.filename">
+          <a href='{{pathLocation(mfile.folder.storage_id,1)+ mfile.folder.mpath +mfile.filename}}' target='_blank'>
+            <img src='{{mfilePath(mfile)}}' height="150px">
           </a>
           <figcaption *ngIf="caption" class="figure-caption bg-dark text-center">
             <a [routerLink]="['/mfile', mfile.id]">{{mfile.filename}}</a></figcaption>
+          <div class="top-left"><a [routerLink]="['/mfile', mfile.id]">X</a></div>
+          <div class="top-left2"><a [routerLink]="" (click)="showPic(i)" >y</a></div>
         </figure>
-      
-    </div>
-   
-  </div>
 
+      </div>
+
+    </div>
+    <app-pic-fullscreen (nextPicEvent)="handleEvent($event)" [mfile]="mfiles[pointer]"></app-pic-fullscreen>
+  </div>
 </div>

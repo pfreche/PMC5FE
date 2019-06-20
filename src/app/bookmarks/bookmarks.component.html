@@ -3,15 +3,19 @@
 <style>
     table { table-layout: fixed; }
 </style>
-   
+<div class="spinner-border" role="status" *ngIf="spinner">
+    <span class="sr-only">Loading...</span>
+  </div>
 
-<input type="text" [(ngModel)]="searchInput"  (ngModelChange)="setSearch()" class="form-control">
+<input type="text" [(ngModel)]="searchInput"   class="form-control"
+(ngModelChange)="this.userQuestionUpdate.next($event)">
+
 <div width="500px"> 
 <table class="table table-bordered table-condensed"> 
     <tr><th width="30%">title</th><th width="60%">URL</th>
         <th width="10%"></th><th width="10%"></th></tr>
 <tr *ngFor="let b of bookmarks" >
-<ng-container *ngIf="search =='' || b.title && b.title.includes(search)">
+<ng-container >
     <td ><a [routerLink]="['/bookmarks', b.id]">{{b.title}}</a> </td> 
     <td><a href='{{b.url}}' target="_blank">{{b.url}}</a></td>
          <td><ng-container *ngIf="b.folder_id">

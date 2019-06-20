@@ -1,0 +1,19 @@
+<ng-template #content let-modal class="modal-dialog modal-full">
+  <div class="modal-body">
+
+    <img src="{{picUrl}}" class="imagepreview" style="height: 100vh">
+  </div>
+</ng-template>
+<hr>
+
+<div [style.visibility]="isVisible ? 'visible' : 'hidden'">
+  <div class="fullscreen" >
+    <img src="{{picUrl}}" class="imagepreview" style="height: 100vh" (click)="toggleVisibility()">
+
+  </div>
+</div>
+
+
+<div class="showPic" (click)="toggleVisibility()">
+  showPic
+</div>

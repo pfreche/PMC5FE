@@ -1,0 +1,23 @@
+<span *ngFor=" let attri of attris" class="badge badge-secondary" (click)="select(attri)">
+  {{attri.name}} 
+</span>
+<span class="badge badge-secondary"></span>
+
+Select Attris:
+<span *ngFor=" let attri of attrisSelected" class="badge badge-secondary" (click)="deselect(attri)">
+  {{attri.name}} 
+</span>
+<span class="badge badge-secondary"></span>
+
+<button (click)="loadMfilesByAttris()"> Load Mfiles </button>
+
+<select [(ngModel)]="agroup_id" name="typ" id="typ" type="s" >
+  <option *ngFor="let agroup of agroups" value="agroup.id">{{agroup.name}}</option>
+</select>
+<input  [(ngModel)]="attributeName" name="a" id="a"  >
+<button class="btn btn-primary btn-sm"> New Attribute</button>
+
+<ng-container *ngIf="mfiles" >
+  <app-mfiles [mfiles]="mfiles" ></app-mfiles>
+
+</ng-container>

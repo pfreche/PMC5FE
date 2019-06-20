@@ -1,7 +1,7 @@
 import { environment } from './../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { Http } from '@angular/http';
-import { Component, OnInit, Input, SystemJsNgModuleLoader } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-fit-detail',
