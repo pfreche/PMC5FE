@@ -1,5 +1,5 @@
 import { environment } from './../../environments/environment';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { BcontrollerService } from './../bcontroller.service';
 import { Component, OnInit } from '@angular/core';
 import { Bookmark } from '../model/bookmark';
@@ -18,7 +18,7 @@ export class BookmarkFormComponent implements OnInit {
   changeBit =  false;
   baseUrl = environment.baseUrl
 
-  constructor(private http:Http, private bc: BcontrollerService,
+  constructor(private http:HttpClient, private bc: BcontrollerService,
               private route: ActivatedRoute,
               private router: Router) { 
     bc.bookmarkSelected$.subscribe( bookmark => {
@@ -47,7 +47,7 @@ export class BookmarkFormComponent implements OnInit {
 
           if (id) {
           this.http.get(this.baseUrl+"bookmarks/"+id)
-          .subscribe( response => {this.bookmark = response.json(); console.log(this.bookmark)});
+          .subscribe( (response :Bookmark) => {this.bookmark = response; console.log(this.bookmark)});
         }
         }
     );
@@ -75,16 +75,14 @@ export class BookmarkFormComponent implements OnInit {
       if (id != undefined) {
         this.http.put(this.baseUrl+"bookmarks/"+id,x.value)
         .subscribe(response => {
-          console.log(response.json()); 
           this.updated = true;
           this.reloadList();
         })
       } else {
         console.log(x.value);
         this.http.post(this.baseUrl+"bookmarks/create",x.value)
-        .subscribe(response => {
-          console.log(response.json())
-          this.bookmark = response.json();
+        .subscribe((response : Bookmark) => {
+          this.bookmark = response;
           this.created = true;
           this.reloadList();
         })
@@ -135,13 +133,13 @@ export class BookmarkFormComponent implements OnInit {
 
   tryFit(id) {
           this.http.get(this.baseUrl+"bookmarks/"+id+"/fit")
-          .subscribe( response => {this.bookmark = response.json(); console.log(this.bookmark)});
+          .subscribe( (response : Bookmark) => {this.bookmark = response});
    
   }
 
   getTitle() {
-       this.http.get(this.baseUrl+"bookmarks/"+this.bookmark.id+"/getTitle")
-       .subscribe( response => {this.bookmark.title = response.text(); console.log(response)});
+       this.http.get(this.baseUrl+"bookmarks/"+this.bookmark.id+"/getTitle", {responseType: 'text'} )
+       .subscribe( (response:string)  => { this.bookmark.title = response; console.log(response)});
     
   }
 

@@ -17,7 +17,12 @@
         </div>
         <input 
         [(ngModel)]="storage.mtype" name="mtype" id="mtype" type="text" class="form-control">
-       </div>
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon3"> Fit Id </span>
+        </div>
+        <input 
+        [(ngModel)]="storage.fit_id" name="fit_id" id="fit_id" type="text" class="form-control">
+     </div>
   
      <button class="btn btn-primary btn-sm" [disabled]="!f.valid" >save</button>
         <button type="button" class="btn btn-primary btn-sm" (click)="cancel()" > Cancel</button>
@@ -28,6 +33,7 @@
         <button type="button" class="btn btn-primary btn-sm" (click)="newLocation(3)" [disabled]="storage.id == undefined" > New Web TN Location</button>      
         <button type="button" class="btn btn-primary btn-sm" (click)="newLocation(4)" [disabled]="storage.id == undefined" > New FS TN Location</button>      
         <button type="button" class="btn btn-primary btn-sm" (click)="deepCopy()" [disabled]="storage.id == undefined" > Deep Copy</button>   
+        <button type="button" class="btn btn-primary btn-sm" (click)="inheritMtype()" [disabled]="storage.id == undefined" > Inherit Mtype</button>   
   </form>
   
 

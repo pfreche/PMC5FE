@@ -25,11 +25,12 @@
 <p *ngIf="folder.bookmark">
     <a [routerLink]="['/bookmarks', folder.bookmark.id]">{{folder.bookmark.url}}</a>
     <span class="badge badge-light"><a [routerLink]="" (click)="addSuffix(folder.bookmark.id)">S</a></span>
+    <span class="badge badge-light"><a [routerLink]="" (click)="modulateBookmarkURL(folder.bookmark.id)">Modulate</a></span>
     </p>
     
 <button (click)="dirlist = !dirlist"> Dirlist Toggle</button>
 <button (click)="deleteFolder(folder.id)"> Delete Folder</button>
-<button (click)="scanAndAddOriginLocation(folder.id)"> Scan for new Mfiles from OriginLocation</button>
+<button (click)="scanAndAddFromOriginLocation(folder.id)"> Scan for new Mfiles from OriginLocation</button>
 <button (click)="getLocationsT2()"> Locations to move</button>
 <button *ngFor="let location of locations" (click)="moveToLocation(location.id)">{{location.uri}}</button>
 

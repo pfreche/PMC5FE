@@ -1,6 +1,6 @@
 import { MediaService } from './../media.service';
 import { Component, OnInit } from '@angular/core';
-import {Response} from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-storages',
@@ -10,7 +10,7 @@ import {Response} from '@angular/http';
 export class StoragesComponent implements OnInit {
 
   constructor(private mediaService: MediaService) { }
-  storages: any[];
+  storages: Storage[];
 
   ngOnInit() {
     this.load();
@@ -18,7 +18,7 @@ export class StoragesComponent implements OnInit {
 
   load() {
     this.mediaService.loadStorages()
-     .subscribe((storages: Response) => {this.storages = storages.json();} );
+     .subscribe((response:Storage[]) => {this.storages = response;} );
   
     }
 

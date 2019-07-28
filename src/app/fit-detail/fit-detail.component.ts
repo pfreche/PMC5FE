@@ -1,6 +1,6 @@
 import { environment } from './../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
-import { Http } from '@angular/http';
+import { HttpClient} from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -19,7 +19,7 @@ export class FitDetailComponent implements OnInit {
   refresh = false;
   baseUrl = environment.baseUrl;
 
-  constructor(private http:Http, private route: ActivatedRoute) { 
+  constructor(private http:HttpClient, private route: ActivatedRoute) { 
   }
 
   ngOnInit() {
@@ -29,7 +29,7 @@ export class FitDetailComponent implements OnInit {
 
      if (id) {
         this.http.get(this.baseUrl+"fits/"+id)
-            .subscribe( response => {this.fit = response.json();});
+            .subscribe( response => {this.fit = response;});
      }
    }
    );
@@ -41,7 +41,7 @@ export class FitDetailComponent implements OnInit {
     if (id != undefined) {
       this.http.put(this.baseUrl+"fits/"+id,x.value)
       .subscribe(response => {
-        console.log(response.json()); 
+        console.log(response); 
         this.updated = true;
       })
     } else {

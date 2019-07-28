@@ -11,6 +11,7 @@ export class UrlMatcherComponent implements OnInit {
   @Input() url: string;
   matches: any[];
   a = "hallo"
+  // Wofür ist diese Komponente ????
 
   constructor(private mediaService: MediaService) { }
 
@@ -22,7 +23,7 @@ export class UrlMatcherComponent implements OnInit {
 
     console.log("url>  ", this.url, this.a)
     this.mediaService.match(this.url)
-    .subscribe((response) => {this.matches = response.json();} );
+    .subscribe((response) => {this.matches} );
     
 
   }

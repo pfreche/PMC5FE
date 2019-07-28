@@ -1,7 +1,12 @@
 import { environment } from './../../environments/environment';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MediaService } from '../media.service';
+import { ScanResult } from '../model/attri.1';
+import { Location } from '../model/location';
+import { Folder } from '../model/folder';
+import { LocationsComponent } from '../locations/locations.component';
 
 @Component({
   selector: 'app-scanner',
@@ -11,14 +16,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class ScannerComponent implements OnInit {
 
   url: string;
-  result: any;
+  result: ScanResult;
   level = 1;
-  location: string;
-  folder: any;
-  status: number;
+  location: Location;
+  folder: Folder;
+  status: string;
   baseUrl = environment.baseUrl;
 
-  constructor(private http:Http, private route: ActivatedRoute) { 
+  constructor(private mediaService: MediaService, private http:HttpClient, private route: ActivatedRoute) { 
   }
 
 
@@ -29,28 +34,28 @@ export class ScannerComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.url = params['url'];
       if (this.url) {this.scan(this.level)}
-      });
-
-    
+      });   
   }
 
     scan(level) {
-      this.status = null
+      this.status = "Scanning"
       this.http.get(this.baseUrl+"scanner/?url="+this.url+"&level="+level)
-      .subscribe( response => {this.result = response.json();this.status = response.status},
+      .subscribe( (response:ScanResult) => {this.result = response; this.status = "okay";},
                   error => {this.status = error.status});  
     }
 
     scanAndLocate() {
-      this.status = null
+      this.status = "Scanning and Locating"
       this.http.get(this.baseUrl+"scanner/?url="+this.url+"&level="+3+"&locate=x")
-      .subscribe( response => {this.location = response.json();this.status = response.status});  
-    }
+      .subscribe( (response:Location) => {this.location = response; this.status = "okay";},
+               error => {this.status = error.status});  
+        }
  
     scanSaveInLocation(location_id) {
-      this.status = null
+      this.status = "Scanning and Saving"
       this.http.post(this.baseUrl+"scanner/", {url: this.url, location_id: location_id})
-      .subscribe( response => {this.folder = response.json();this.status = response.status});
+      .subscribe( (response:Folder) => {this.folder = response; this.status = "Scan and Saved!!!"},
+      error => {this.status = error.status});
     }
  
     newFit() {

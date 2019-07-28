@@ -1,8 +1,9 @@
 import { environment } from './../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MediaService } from '../media.service';
+import { Location } from '../model/location';
 
 @Component({
   selector: 'app-location-detail',
@@ -11,11 +12,11 @@ import { MediaService } from '../media.service';
 })
 export class LocationDetailComponent implements OnInit {
 
-  location: any;
+  location: Location;
   baseUrl = environment.baseUrl;
   dirlist = false;
    
-  constructor(private http: Http, private mediaService: MediaService, private route: ActivatedRoute) { 
+  constructor(private http:HttpClient, private mediaService: MediaService, private route: ActivatedRoute) { 
   }
 
   ngOnInit() {
@@ -24,7 +25,7 @@ export class LocationDetailComponent implements OnInit {
   
      if (id) {
         this.mediaService.loadLocation(id)
-           .subscribe( response => {this.location = response.json();});
+           .subscribe( (response:Location) => {this.location = response;});
       }
     });
   }
@@ -37,12 +38,12 @@ export class LocationDetailComponent implements OnInit {
     if (id != undefined) {
       this.http.put(this.baseUrl+"locations/"+id,x.value)
       .subscribe(response => {
-        console.log(response.json()); 
+        console.log(response); 
       })
     } else {
       this.http.post(this.baseUrl+"locations/create",x.value)
       .subscribe(response => {
-        console.log(response.json())
+        console.log(response)
       })
     }
 } 

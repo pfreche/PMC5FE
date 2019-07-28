@@ -2,7 +2,10 @@ import { MediaService } from './../media.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Mfile } from '../model/mfile';
-import { loadElement } from '@angular/core/src/render3/instructions';
+import { Folder } from '../model/folder';
+import { Location } from '../model/location';
+import { Input } from '@angular/core';
+//import { loadElement } from '@angular/core/src/render3/instructions';
 
 @Component({
   selector: 'app-folder-detail',
@@ -12,9 +15,9 @@ import { loadElement } from '@angular/core/src/render3/instructions';
 
 export class FolderDetailComponent implements OnInit {
 
-  folder: any;
+  @Input() folder: Folder;
   dirlist: boolean;
-  locations: any[];
+  locations: Location[];
   scanAndUpdate = ""
   mfiles: Mfile[];
 
@@ -29,13 +32,17 @@ export class FolderDetailComponent implements OnInit {
 
       if (id) {
         this.mediaService.loadFolder(id)
-          .subscribe(response => {
-            this.folder = response.json();
+          .subscribe((response:Folder) => {
+            this.folder = response;
             this.loadMfiles();
           })
       }
     }
     );
+  }
+
+  ngOnChanges() {
+    this.loadMfiles();
 
   }
 
@@ -51,14 +58,14 @@ export class FolderDetailComponent implements OnInit {
   }
 
 
-  scanAndAddOriginLocation(folder_id) {
-    this.scanAndUpdate = "Update ongoing"
+  scanAndAddFromOriginLocation(folder_id) {
     if (confirm("Really scan this folder?")) {
-      return this.mediaService.scanAndAddOriginLocation(folder_id)
+      this.scanAndUpdate = "Update ongoing"
+      return this.mediaService.scanAndAddFromOriginLocation(folder_id)
         .subscribe(response => {
           this.mediaService.loadFolder(folder_id)
-            .subscribe(response => {
-              this.folder = response.json();
+            .subscribe((response :Folder) => {
+              this.folder = response;
               this.scanAndUpdate = "Update done"
               this.loadMfiles();
             })
@@ -68,18 +75,18 @@ export class FolderDetailComponent implements OnInit {
 
   getLocationsT2() {
     return this.mediaService.getLocations()
-      .subscribe(response => {
-        this.locations = response.json();
+      .subscribe((response:Location []) => {
+        this.locations = response;
         this.locations = this.locations.filter(location => location.typ === 2)
       });
   }
 
   moveToLocation(location_id) {
     return this.mediaService.moveFolderToLocation(this.folder.id, location_id)
-      .subscribe(response => {
+      .subscribe((response:Location) => {
         this.mediaService.loadFolder(this.folder.id)
-          .subscribe(response => {
-            this.folder = response.json();
+          .subscribe((response:Folder) => {
+            this.folder = response;
           })
       });
   }
@@ -88,16 +95,25 @@ export class FolderDetailComponent implements OnInit {
     return this.mediaService.addSuffixToBookmarkURL(bookmark_id)
       .subscribe(response => {
         this.mediaService.loadFolder(this.folder.id)
-          .subscribe(response => {
-            this.folder = response.json();
+          .subscribe((response:Folder) => {
+            this.folder = response;
           })
       });
-
   }
-  
+
+  modulateBookmarkURL(bookmark_id) {
+    return this.mediaService.modulateBookmarkURL(bookmark_id)
+      .subscribe(response => {
+        this.mediaService.loadFolder(this.folder.id)
+          .subscribe((response:Folder) => {
+            this.folder = response;
+          })
+      });
+  }
+
   loadMfiles() {
     this.mediaService.loadMfilesByFolder(this.folder.id)
-    .subscribe(response => { this.mfiles = response.json(); });
+    .subscribe((response:Mfile[]) => { this.mfiles = response; });
 
   }
 

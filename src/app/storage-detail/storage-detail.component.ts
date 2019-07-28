@@ -1,8 +1,9 @@
 import { environment } from './../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MediaService } from '../media.service';
+import { Storage } from '../model/storage';
 
 @Component({
   selector: 'app-storage-detail',
@@ -11,14 +12,14 @@ import { MediaService } from '../media.service';
 })
 export class StorageDetailComponent implements OnInit {
 
-  storage: any;
+  storage: Storage;
   id: number;
-  location: any;
+  location: Location;
   changeBit = false;
   baseUrl = environment.baseUrl;
 
 
-  constructor(private http: Http, private mediaService: MediaService,
+  constructor(private http: HttpClient, private mediaService: MediaService,
     private route: ActivatedRoute,
     private router: Router) {
   }
@@ -28,7 +29,7 @@ export class StorageDetailComponent implements OnInit {
       this.id = +params['id'];
       if (this.id) {
         this.mediaService.loadStorage(this.id)
-          .subscribe(response => { this.storage = response.json(); });
+          .subscribe((response:Storage) => { this.storage = response; });
       }
     }
     );
@@ -44,9 +45,8 @@ export class StorageDetailComponent implements OnInit {
         })
     } else {
       this.http.post(this.baseUrl + "storages/", x.value)
-        .subscribe(response => {
-          console.log(response.json())
-          this.storage = response.json();
+        .subscribe((response:Storage) => {
+          this.storage = response;
           this.router.navigate(['/storage', this.storage.id]);
 
         })
@@ -59,9 +59,16 @@ export class StorageDetailComponent implements OnInit {
 
   deepCopy() {
     this.http.post(this.baseUrl + "storages/"+this.storage.id+"/deepCopy", {id: this.storage.id})
-    .subscribe(response => {
-      this.storage = response.json();
+    .subscribe((response:Storage)  => {
+      this.storage = response;
       this.router.navigate(['/storage', this.storage.id]);
+    });
+  }
+
+  inheritMtype() {
+    this.http.post(this.baseUrl + "storages/"+this.storage.id+"/inheritMtype", {id: this.storage.id})
+    .subscribe((response:Storage)  => {
+      this.storage = response;
     });
   }
 
@@ -103,8 +110,8 @@ export class StorageDetailComponent implements OnInit {
 
 
     this.mediaService.newLocation(location)
-      .subscribe(response => {
-        this.location = response.json();
+      .subscribe((response:Location)  => {
+        this.location = response;
         this.changeBit = !this.changeBit;
       });
   }

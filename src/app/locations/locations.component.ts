@@ -1,7 +1,8 @@
 import { environment } from './../../environments/environment';
 import { Router } from '@angular/router';
-import { Http, Response } from '@angular/http';
+import { HttpClient} from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
+import { Location } from '../model/location';
 
 @Component({
   selector: 'app-locations',
@@ -12,10 +13,10 @@ export class LocationsComponent implements OnInit {
 
   @Input() storage_id: number;
   @Input() changeBit: boolean;
-  locations: any;
+  locations: Location[];
   baseUrl = environment.baseUrl;
 
-  constructor(private http: Http, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
 
   ngOnInit() {
@@ -27,14 +28,14 @@ export class LocationsComponent implements OnInit {
 
   load() {
     this.http.get(this.baseUrl + "locations")
-      .subscribe((r: Response) => {
-        this.locations = r.json();
+      .subscribe((r:Location[]) => {
+        this.locations = r;
       });
   }
 
   loadByStorage() {
     this.http.get(this.baseUrl + "storages/" + this.storage_id + "/locations")
-    .subscribe((r: Response) => { this.locations = r.json(); });
+    .subscribe((r:Location[]) => { this.locations = r; });
   }
 
   update(location) {

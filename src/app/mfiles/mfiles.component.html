@@ -17,8 +17,10 @@
       </tr>
       <tr *ngFor="let m of mfiles" #t>
         <td><a [routerLink]="['/mfile', m.id]">{{m.id}}</a> </td>
+        <td> {{m.title}}</td>
         <td> {{m.filename}}</td>
         <td> {{m.folder_id}}</td>
+        <td> {{m.mtype}}</td>
       </tr>
     </table>
   </div>

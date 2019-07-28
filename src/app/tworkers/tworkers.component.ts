@@ -1,7 +1,9 @@
 import { environment } from './../../environments/environment';
 import { Router } from '@angular/router';
-import { Http, Response } from '@angular/http';
+import { HttpClient} from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
+import { MediaService } from '../media.service';
+import { Tworker } from '../model/tworker';
 
 @Component({
   selector: 'app-tworkers',
@@ -13,11 +15,11 @@ export class TworkersComponent implements OnInit {
 
   @Input() fit_id: number;
   @Input() changeBit: boolean;
-  tworkers: any;
+  tworkers: Tworker[];
   baseUrl = environment.baseUrl;
+  a = "";
 
-
-  constructor(private http: Http, private router: Router) { }
+  constructor(private mediaService: MediaService, private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
     if (this.fit_id) {
@@ -28,14 +30,14 @@ export class TworkersComponent implements OnInit {
 
   loadByFit(fit_id) { //todo
     this.http.get(this.baseUrl+"fits/"+fit_id+"/tworkers")
-    .subscribe((r: Response) => {
-      this.tworkers = r.json(); });
+    .subscribe((r:Tworker[]) => {
+      this.tworkers = r; });
   }
 
   load() {
     this.http.get(this.baseUrl+"tworkers")
-    .subscribe((r: Response) => {
-      this.tworkers = r.json(); });
+    .subscribe((r:Tworker[]) => {
+      this.tworkers = r; });
   }
 
   update(tworker) {

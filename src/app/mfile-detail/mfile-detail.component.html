@@ -1,34 +1,36 @@
 <div class="containe">
-  <div>
-    {{mfile.filename}} <br>
-    Folder {{mfile.folder.title}}
-    <br>
-    {{pathLocation(mfile.folder.storage_id,3)}}
-    {{mfile.folder.mpath}}
-    {{mfile.folder.lfolder}}
-    {{mfile.filename}}
     <div>
-      <span *ngFor=" let attri of attrisSelected" class="badge badge-secondary" (click)="deselect(attri)">
-        {{attri.name}}
-      </span>
+      <i class="fas fa-cab"></i>
     </div>
+  
+  <div>
+    <span>    {{mfile.title}} {{mfile.filename}}
+      </span>
+    <span *ngFor=" let attri of attrisSelected" class="badge badge-secondary" (click)="deselect(attri)">
+          {{attri.name}} 
+      </span>
   </div>
-<a href='{{pathLocation(mfile.folder.storage_id,1)+ mfile.folder.mpath +mfile.folder.lfolder+"/"+mfile.filename}}'
-  target="ssss">
-  <img src='{{tn}}'>
-</a>
-<div>
-<button (click)='generateTn()'> generate TN</button> <br>
-<button (click)='download()'> download</button>
-<div> {{downloaded}} </div>
-</div>
+  
+  <div *ngIf="mfile.proberties != null">
+      <span *ngFor=" let p of mfile.proberties"  >
+        [{{p.name}} : {{p.value}}]
+      </span>
+  </div>
+  
 </div>
 
-
-<p></p>
+<p>
+    <input type="text" [(ngModel)]="searchInput"   class="form-control"
+    (ngModelChange)="this.userQuestionUpdate.next($event)">
+  </p>
 <span *ngFor=" let attri of attris" class="badge badge-secondary" (click)="select(attri)">
-  {{attri.name}}
+  <span *ngIf="attri.name.includes(searchInput)">  {{attri.name}}</span>
 </span>
+<ng-container   *ngIf="mfile.mtype != 8"> 
+<app-medium-detail  [mfile] = "mfile"> </app-medium-detail>
+</ng-container>
 
-
-<app-pic-fullscreen [mfile]="mfile"></app-pic-fullscreen>
+<ng-container   *ngIf="mfile.mtype == 8"> 
+    <app-folder-detail  [folder] = "mfile.folder"> </app-folder-detail>
+</ng-container>
+    

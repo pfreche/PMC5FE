@@ -44,6 +44,7 @@
 
 
       <tr *ngFor="let location of locations">
+         <td></td>
         <td><a [routerLink]="['/location', location.id]">{{location.name}}</a> </td>
         <td> {{location.uri}} </td>
         <td> {{location.description}} </td>

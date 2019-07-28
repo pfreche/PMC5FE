@@ -1,0 +1,26 @@
+<div class="containe">
+    <div>
+      <a [routerLink]="['/folders/',mfile.folder_id]">    {{pathLocation(mfile.folder.storage_id,3)}}
+        {{mfile.folder.mpath}}
+        {{mfile.folder.lfolder}}
+    </a>
+    {{mfile.filename}}
+   </div>
+ 
+   <a href='{{pathLocation(mfile.folder.storage_id,1)+ mfile.folder.mpath +mfile.folder.lfolder+"/"+mfile.filename}}'
+    target="ssss">
+    <img src='{{tn}}'>
+  </a>
+ 
+  <iframe *ngIf="mfile.mtype == 7" class="e2e-iframe-trusted-src" width="560" height="315" [src]="youtubeUrlEmbedded" frameborder="0" 
+  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+  <div>
+  <button (click)='generateTn()'> generate TN</button> <br>
+  <button *ngIf="mfile.mtype == 5" (click)='download()'> download</button>
+  <button *ngIf="mfile.mtype == 7" (click)='downloadYoutube()'> download Youtube Video</button>
+  <div> {{downloaded}} </div>
+  </div>
+  </div>
+  
+  app-pic-fullscreen [mfile]="mfile" /app-pic-fullscreen

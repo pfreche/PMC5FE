@@ -32,6 +32,27 @@
   table { table-layout: fixed; }
 </style>
  
+ <div width="500px"> 
+  <table class="table table-bordered table-condensed"> 
+    <tr><th width="7%">Typ</th>
+      <th width="4%">Level</th>
+      <th width="40%">Found Snippet</th>
+      <th width="15%">Pattern</th>
+      <th width="10%">Action</th>
+       </tr>
+  <tr *ngFor="let r of result" >
+    <td > {{r.typ }} </td>  
+    <td > {{r.level }} </td>  
+    <td > {{r.link }} 
+<a *ngIf="r.action == 2" href="{{r.link}}"> goto</a></td>  
+    <td > {{r.pattern }} </td>  
+    <td > {{mediaService.getWorkerAction(r.action) }} </td>  
+    <td > {{r.tag_attr }} </td>  
+    <td > {{r.scanned }} </td>  
+  </tr>
+  </table>
+  </div>
+
 <div width="500px"> 
 <table class="table table-bordered table-condensed"> 
   <tr><th width="50%">Found Snippet</th>

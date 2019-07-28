@@ -1,7 +1,9 @@
 import { environment } from './../../environments/environment';
-import { Http, Response } from '@angular/http';
+import { HttpClient} from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '../model/location';
+import { DirEntry } from '../model/dirEntry';
 
 @Component({
   selector: 'app-dirlist',
@@ -13,11 +15,11 @@ export class DirlistComponent implements OnInit {
   @Input() folder_id: number;
   @Input() location_id: number;
   relpath = "";
-  list: any;
+  list: DirEntry[];
   baseUrl = environment.baseUrl;
   location: any;
 
-  constructor(private http: Http, private route: ActivatedRoute) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute) { }
 
   ngOnInit() {
 
@@ -28,8 +30,8 @@ export class DirlistComponent implements OnInit {
         this.location_id = id;  // assuming online route /location/:id/fs
         if (id) {
           this.http.get(this.baseUrl + "locations/" + id)
-            .subscribe(response => {
-              this.location = response.json();
+            .subscribe((response: Location) => {
+              this.location = response;
               this.dirlist("");
             });
         }
@@ -45,14 +47,14 @@ export class DirlistComponent implements OnInit {
   dirlist(d) {
     if (this.folder_id) {
       this.http.get(this.baseUrl + "folders/" + this.folder_id + "/dir?relpath=" + d)
-        .subscribe((r: Response) => {
-          this.list = r.json();
+        .subscribe((r: DirEntry []) => {
+          this.list = r;
         });
     }
     if (this.location_id) {
       this.http.get(this.baseUrl + "locations/" + this.location_id + "/dir?relpath=" + d)
-        .subscribe((r: Response) => {
-          this.list = r.json();
+        .subscribe((r: DirEntry[]) => {
+          this.list = r;
         });
     }
   }

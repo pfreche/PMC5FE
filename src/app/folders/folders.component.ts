@@ -1,8 +1,9 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MediaService } from '../media.service';
-import {Response} from '@angular/http';
 import { Subscriber } from 'rxjs';
+import { Folder } from '../model/folder';
+import { Storage } from '../model/storage';
 
 @Component({
   selector: 'app-folders',
@@ -32,14 +33,14 @@ export class FoldersComponent implements OnInit {
            if (id) {
              this.storage_id = id;
             this.mediaService.loadFoldersByStorage(id)
-            .subscribe((folders: Response) => {this.folders = folders.json(); });
+            .subscribe((r:Folder[]) => {this.folders = r; });
              this.mediaService.loadStorage(id)
-             .subscribe( (r: Response) => {this.storage = r.json()});
+             .subscribe( (r: Storage) => {this.storage = r; });
           }
          } else {
               this.mediaService.loadFolders()
-             .subscribe((folders: Response) => {this.folders = folders.json(); });
-        }
+              .subscribe((r:Folder[]) => {this.folders = r; });
+            }
     });
     }
     

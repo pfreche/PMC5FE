@@ -1,7 +1,8 @@
 import { environment } from './../../environments/environment';
 import { Router } from '@angular/router';
-import { Http, Response } from '@angular/http';
+import { HttpClient} from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
+import { Fit } from '../model/fit';
 
 @Component({
   selector: 'app-fits',
@@ -10,14 +11,13 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class FitsComponent implements OnInit {
 
-  fits: any;
-  bookmarks: any;
+  fits: Fit[];
   baseUrl = environment.baseUrl;
 
   @Input() bookmark_id: number;
   @Input() changeBit: boolean;
 
-  constructor(private http: Http, private router: Router) { }
+  constructor(private http:HttpClient, private router: Router) { }
 
   ngOnInit() {
     if (this.bookmark_id) {
@@ -28,23 +28,15 @@ export class FitsComponent implements OnInit {
   }
   tryFit(bookmark_id) {
     this.http.get(this.baseUrl+"bookmarks/"+bookmark_id+"/fit")
-    .subscribe((r: Response) => {
-      this.fits = r.json(); console.log(this.fits)});
+    .subscribe((r: Fit[]) => {
+      this.fits = r; });
 
   }
 
   load() {
     this.http.get(this.baseUrl+"fits")
-    .subscribe((r: Response) => {
-      this.fits = r.json(); console.log(this.fits)});
-  }
-
-
-  scan_bak(fit_id) {
-    this.http.get(this.baseUrl+"fits/"+fit_id+"/bookmarks")
-    .subscribe((r: Response) => {
-      this.bookmarks = r.json(); });
-
+    .subscribe((r: Fit[]) => {
+      this.fits = r; });
   }
 
   ngOnChanges() {

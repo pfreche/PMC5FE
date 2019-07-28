@@ -1,7 +1,7 @@
 import { MediaService } from './../media.service';
 import { Mfile } from './../model/mfile';
 import { Component, OnInit, Input } from '@angular/core';
-import { Response } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
@@ -48,10 +48,9 @@ export class MfilesComponent implements OnInit {
 
   load() {
     this.mediaService.loadMfiles()
-      .subscribe((mfiles: Response) => {
-      this.mfiles = mfiles.json();
+      .subscribe((response:Mfile[]) => {
+         this.mfiles = response;
       });
-
   }
 
   pathLocation(storage_id, typ) {
@@ -65,34 +64,43 @@ export class MfilesComponent implements OnInit {
   }
 
   download() {
-    this.dl_counter = 0;
+    this.dl_counter = -1;
     this.direction = 1;
     this.downloadNext(0);
   }
 
   downloadReverse() {
-    this.dl_counter = this.mfiles.length - 1;
+    this.dl_counter = this.mfiles.length ;
     this.direction = -1;
     this.downloadNext(this.dl_counter);
   }
 
   downloadNext(i) {
-    this.downloading = this.mfiles[this.dl_counter].filename + " " + i;
+    this.dl_counter = this.dl_counter + this.direction;
+    this.downloading = this.mfiles[this.dl_counter].filename + " " + this.dl_counter;
 
-    this.mediaService.download(this.mfiles[this.dl_counter].id)
-      .subscribe(response => {
-        console.log(this.mfiles[this.dl_counter].id, "downloaded", response.json());
-        this.mfiles[this.dl_counter].filename = this.mfiles[this.dl_counter].filename + "?r";
+    if (this.mfiles[this.dl_counter]) {
 
-        this.dl_counter = this.dl_counter + this.direction;
-        if (this.mfiles[this.dl_counter]) {
-          if (i < 1000) { this.downloadNext(i + 1) }
-        }
-        else {
-          this.dl_counter = 0;
-          this.downloading = "";
-        }
-      });
+      if (this.mfilePath[this.dl_counter] != 8) {
+      this.mediaService.download(this.mfiles[this.dl_counter].id)
+        .subscribe(response => {
+          console.log(this.mfiles[this.dl_counter].id, "downloaded", response);
+          this.mfiles[this.dl_counter].filename = this.mfiles[this.dl_counter].filename + "?r";
+          this.downloadNext(i + 1);
+        }, error => {
+          this.downloading = this.mfiles[this.dl_counter].filename + " Error";
+          this.downloadNext(i + 1);
+         }
+        );
+      } else {
+        this.downloadNext(i + 1);
+      }
+    }
+   else {
+     this.dl_counter = 0;
+     this.downloading = "";
+   }
+
   }
 
 
@@ -108,7 +116,7 @@ export class MfilesComponent implements OnInit {
           this.mediaService.generateTn(mfile.id)
             .subscribe(response => {
               console.log("tn generated");
-              mfile.filename = mfile.filename + "?reload=2222"
+              mfile.filename = mfile.filename + "?r"
             });
         });
     }

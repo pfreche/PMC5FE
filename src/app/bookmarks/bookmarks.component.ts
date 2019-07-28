@@ -2,7 +2,7 @@ import { environment } from './../../environments/environment';
 import { Bookmark } from './../model/bookmark';
 import { BcontrollerService } from './../bcontroller.service';
 import { Component, OnInit, Input, SystemJsNgModuleLoader } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient} from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
@@ -18,7 +18,7 @@ export class BookmarksComponent implements OnInit {
   @Input() parentBookmark_id: number;
   @Input() refresh: boolean;
 
-  bookmarks: string;
+  bookmarks: Bookmark[];
   bookmark: string;
   search: string;
   searchInput: string;
@@ -27,7 +27,7 @@ export class BookmarksComponent implements OnInit {
   userQuestionUpdate = new Subject<string>();
   spinner = false;
 
-  constructor(private http: Http, private bc: BcontrollerService) {
+  constructor(private http: HttpClient, private bc: BcontrollerService) {
     //    bc.reloadSource$.subscribe( s => {
     //     this.load();
     //   })   
@@ -43,7 +43,7 @@ export class BookmarksComponent implements OnInit {
       distinctUntilChanged())
       .subscribe(value => { this.spinner = true;
         this.http.get(this.baseUrl + "bookmarks?search=" + this.searchInput)
-        .subscribe((bookmarks: Response) => { this.bookmarks = bookmarks.json(); this.spinner = false; console.log(this.bookmarks) });
+        .subscribe((bookmarks: Bookmark[] ) => { this.bookmarks = bookmarks; this.spinner = false; console.log(this.bookmarks) });
       });
 
   }
@@ -62,7 +62,7 @@ export class BookmarksComponent implements OnInit {
     if (this.fit_id || this.parentBookmark_id) {  // do nothing since it loaded via ngOnChanges
     } else {
       this.http.get(this.baseUrl + "bookmarks")
-        .subscribe((bookmarks: Response) => { this.bookmarks = bookmarks.json(); console.log(this.bookmarks) });
+        .subscribe((bookmarks: Bookmark[]) => { this.bookmarks = bookmarks; console.log(this.bookmarks) });
     }
   }
 
@@ -72,19 +72,19 @@ export class BookmarksComponent implements OnInit {
   setSearch() {
     //    setTimeout(() => { this.search = this.searchInput;  }, 1000);
     this.http.get(this.baseUrl + "bookmarks?search=" + this.searchInput)
-      .subscribe((bookmarks: Response) => { this.bookmarks = bookmarks.json(); console.log(this.bookmarks) });
+      .subscribe((bookmarks: Bookmark[]) => { this.bookmarks = bookmarks; console.log(this.bookmarks) });
   }
 
   ngOnChanges() {
 
     if (this.fit_id) {
       this.http.get(this.baseUrl + "fits/" + this.fit_id + "/bookmarks")
-        .subscribe((bookmarks: Response) => { this.bookmarks = bookmarks.json(); });
+        .subscribe((bookmarks: Bookmark[]) => { this.bookmarks = bookmarks; });
     }
 
     if (this.parentBookmark_id) {
       this.http.get(this.baseUrl + "bookmarks/" + this.parentBookmark_id + "/getChildren")
-        .subscribe((bookmarks: Response) => { this.bookmarks = bookmarks.json(); });
+        .subscribe((bookmarks: Bookmark[]) => { this.bookmarks = bookmarks });
     }
 
   }

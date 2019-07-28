@@ -1,8 +1,9 @@
 import { environment } from './../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
-import { routerNgProbeToken } from '@angular/router/src/router_module';
+import { MediaService } from '../media.service';
+import { Tworker } from '../model/tworker';
 
 @Component({
   selector: 'app-tworker-detail',
@@ -11,10 +12,10 @@ import { routerNgProbeToken } from '@angular/router/src/router_module';
 })
 export class TworkerDetailComponent implements OnInit {
 
-  tworker: any;
+  tworker: Tworker;
   baseUrl = environment.baseUrl;
 
-  constructor(private http:Http, private route: ActivatedRoute) { 
+  constructor(private mediaService: MediaService,  private http:HttpClient, private route: ActivatedRoute) { 
   }
 
   ngOnInit() {
@@ -24,7 +25,7 @@ export class TworkerDetailComponent implements OnInit {
 
      if (id) {
         this.http.get(this.baseUrl+"tworkers/"+id)
-            .subscribe( response => {this.tworker = response.json();});
+            .subscribe( (response:Tworker) => {this.tworker = response;});
      }
    }
    );

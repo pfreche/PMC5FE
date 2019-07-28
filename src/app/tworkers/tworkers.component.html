@@ -5,9 +5,9 @@
  
 <div width="500px"> 
 <table class="table table-bordered table-condensed"> 
-  <tr><th width="20%"></th>
+  <tr><th width="5%"></th>
     <th width="15%">Name</th>
-    <th width="10%">Tag</th>
+    <th width="20%">Tag</th>
     <th width="10%">Attribute</th>
     <th width="30%">Pattern</th>
     <th width="20%">Action</th>
@@ -24,10 +24,7 @@
   <td > <input [(ngModel)]="tworker.pattern" name="pattern" id="pattern" type="text" class="form-control"> </td> 
   <td >     <select 
     [(ngModel)]="tworker.action" name="action" id="action" type="s" class="form-control">
-    <option value = "1">Medium to save</option>
-    <option value = "2">Fit and Scan URI</option>
-    <option value = "3">Save title</option>
-    <option value = "4">unkown</option>
+    <option *ngFor="let action of mediaService.getWorkerActions(); let i = index" value = "{{i}}"> {{action}} </option>
    </select>
 </td> 
   <td > <input  [(ngModel)]="tworker.final" name="final" id="final" type="checkbox" class="form-control">

@@ -54,13 +54,18 @@
     </div>
     <select 
      [(ngModel)]="tworker.action" name="action" id="action" type="s" class="form-control">
-     <option value = "1">Medium to save</option>
-     <option value = "2">Fit and Scan URI</option>
-     <option value = "3">Save title</option>
-     <option value = "4">Save Parent Bookmark</option>
-     <option value = "5">unkown</option>
+     <option *ngFor="let action of mediaService.getWorkerActions(); let i = index" value = "{{i}}"> {{action}} </option>
     </select>
    </div>
+
+   <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon3"> Property Configuration</span>
+    </div>
+    <input 
+    [(ngModel)]="tworker.prop_config" name="prop_config" id="prop_config" type="text" class="form-control">
+   </div>
+
 
    <div class="input-group mb-3">
     <div class="input-group-prepend">

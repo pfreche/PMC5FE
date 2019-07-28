@@ -1,9 +1,9 @@
 import { Bookmark } from './model/bookmark';
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { Response } from '@angular/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from './../environments/environment';
+import { Location } from './model/location';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,10 @@ export class MediaService {
   folder_id: number;
   storage_id: number;
   aee: number;
+  workerActions = ["unkown", "Save Medium with Folder", "Fit and Scan", "Save Title", "Save as Parent URL",
+        "Save as Mfile Property","Save Attri in Folder","Modulate URL", "Save as Youtube Folder", "unkown"]
 
-  constructor(private http: Http, private router: Router) {
+  constructor(private http: HttpClient, private router: Router) {
 
     let apiUrl = localStorage.getItem("apiUrl");
     if (apiUrl) {
@@ -31,8 +33,8 @@ export class MediaService {
   }
 
   loadLocations() {
-    this.http.get(this.apiUrl + "locations/").subscribe((l: Response) => {
-      this.locations = l.json();
+    this.http.get(this.apiUrl + "locations/").subscribe((l: Location[]) => {
+      this.locations = l;
       localStorage.setItem("location", JSON.stringify(this.locations));
     })
   }
@@ -63,8 +65,8 @@ export class MediaService {
   deleteFolder(id: number) {
     return this.http.delete(this.apiUrl + "folders/" + id)
   }
-  scanAndAddOriginLocation(id: number) {
-    return this.http.get(this.apiUrl + "folders/" + id + "/scanAndAddOriginLocation");
+  scanAndAddFromOriginLocation(id: number) {
+    return this.http.get(this.apiUrl + "folders/" + id + "/scanAndAddFromOriginLocation");
   }
 
 
@@ -93,6 +95,10 @@ export class MediaService {
 
   addSuffixToBookmarkURL(bookmark_id) {
     return this.http.put(this.apiUrl + "bookmarks/" + bookmark_id + "/addSuffix", { "suffix": "?view=2" });
+  }
+
+  modulateBookmarkURL(bookmark_id) {
+    return this.http.put(this.apiUrl + "bookmarks/" + bookmark_id + "/modulateURL", { "dummy": "1" });
   }
 
   loadFoldersByStorage(storage_id) {
@@ -145,9 +151,25 @@ export class MediaService {
     return this.http.get(this.apiUrl + "agroups/")
   }
 
-  loadMfilesByAttris(attris) {
-    return this.http.get(this.apiUrl + "attris/"+attris[0].id+"/mfiles");
+  loadMfilesByAttris(attris){
+
+    const params = new HttpParams();
+ 
+    attris.forEach(element => {
+      alert(element.id);
+      params.set(element.id, element.name)
+          }); 
+
+    return this.http.get(this.apiUrl + "attris/"+attris[0].id+"/mfiles",{params});
   }
 
+  getWorkerAction(id){
+     return this.workerActions[id];
+  }
+
+  getWorkerActions() {
+    return this.workerActions;
+
+  }
 
 }

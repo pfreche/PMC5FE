@@ -1,11 +1,8 @@
-<div> Location: {{location.name}}</div>
+<div> Location:</div>
 <div> {{relpath}} </div>
 <div *ngIf="location_id">
   <button (click)="addFolder(relpath)">Add Folder </button>
 </div>
-
-
-
 <table>
   <tr>
     <th>Typ</th>
@@ -26,7 +23,7 @@
         <a [routerLink]="['/folders', d.folder_id]">{{d.title}} </a></span>
     </td>
     <td >   <button *ngIf="+d.state ==1" (click)="addFolder(relpath+'/'+d.file)"> Add folder </button>
-      <button *ngIf="+d.state ==2"> Scan folder </button>
+      <button *ngIf="+d.state ==2"(click)="addFolder(relpath+'/'+d.file)" > Scan folder </button>
      </td>
     <td></td>
   </tr>
