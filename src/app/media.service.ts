@@ -65,6 +65,11 @@ export class MediaService {
   deleteFolder(id: number) {
     return this.http.delete(this.apiUrl + "folders/" + id)
   }
+
+  deleteMfilesWOPhysicalFile(id: number) {
+    return this.http.put(this.apiUrl + "folders/" + id + "/removeMfilesWOPhysicalFile",{})
+  }
+
   scanAndAddFromOriginLocation(id: number) {
     return this.http.get(this.apiUrl + "folders/" + id + "/scanAndAddFromOriginLocation");
   }
@@ -170,6 +175,10 @@ export class MediaService {
   getWorkerActions() {
     return this.workerActions;
 
+  }
+
+  getTitle(bookmark_id) {
+    return   this.http.get(this.apiUrl+"bookmarks/"+bookmark_id+"/getTitle", {responseType: 'text'});
   }
 
 }

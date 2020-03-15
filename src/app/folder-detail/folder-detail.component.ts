@@ -21,6 +21,8 @@ export class FolderDetailComponent implements OnInit {
   scanAndUpdate = ""
   mfiles: Mfile[];
 
+  onlineTitle = "Get Title ...";
+
   constructor(private mediaService: MediaService,
     private route: ActivatedRoute, private router: Router) {
   }
@@ -32,7 +34,7 @@ export class FolderDetailComponent implements OnInit {
 
       if (id) {
         this.mediaService.loadFolder(id)
-          .subscribe((response:Folder) => {
+          .subscribe((response: Folder) => {
             this.folder = response;
             this.loadMfiles();
           })
@@ -57,6 +59,19 @@ export class FolderDetailComponent implements OnInit {
     }
   }
 
+  deleteMfilesWOPhysicalFile(folder_id) {
+    if (confirm("Really delete the empty Mfiles in this folder?")) {
+      return this.mediaService.deleteMfilesWOPhysicalFile(folder_id)
+        .subscribe(response => {
+          this.mediaService.loadFolder(folder_id)
+            .subscribe((response: Folder) => {
+              this.folder = response;
+              this.scanAndUpdate = "Mfiles removed"
+              this.loadMfiles();
+            });
+        });
+    }
+  }
 
   scanAndAddFromOriginLocation(folder_id) {
     if (confirm("Really scan this folder?")) {
@@ -64,7 +79,7 @@ export class FolderDetailComponent implements OnInit {
       return this.mediaService.scanAndAddFromOriginLocation(folder_id)
         .subscribe(response => {
           this.mediaService.loadFolder(folder_id)
-            .subscribe((response :Folder) => {
+            .subscribe((response: Folder) => {
               this.folder = response;
               this.scanAndUpdate = "Update done"
               this.loadMfiles();
@@ -75,7 +90,7 @@ export class FolderDetailComponent implements OnInit {
 
   getLocationsT2() {
     return this.mediaService.getLocations()
-      .subscribe((response:Location []) => {
+      .subscribe((response: Location[]) => {
         this.locations = response;
         this.locations = this.locations.filter(location => location.typ === 2)
       });
@@ -83,9 +98,9 @@ export class FolderDetailComponent implements OnInit {
 
   moveToLocation(location_id) {
     return this.mediaService.moveFolderToLocation(this.folder.id, location_id)
-      .subscribe((response:Location) => {
+      .subscribe((response: Location) => {
         this.mediaService.loadFolder(this.folder.id)
-          .subscribe((response:Folder) => {
+          .subscribe((response: Folder) => {
             this.folder = response;
           })
       });
@@ -95,7 +110,7 @@ export class FolderDetailComponent implements OnInit {
     return this.mediaService.addSuffixToBookmarkURL(bookmark_id)
       .subscribe(response => {
         this.mediaService.loadFolder(this.folder.id)
-          .subscribe((response:Folder) => {
+          .subscribe((response: Folder) => {
             this.folder = response;
           })
       });
@@ -105,7 +120,7 @@ export class FolderDetailComponent implements OnInit {
     return this.mediaService.modulateBookmarkURL(bookmark_id)
       .subscribe(response => {
         this.mediaService.loadFolder(this.folder.id)
-          .subscribe((response:Folder) => {
+          .subscribe((response: Folder) => {
             this.folder = response;
           })
       });
@@ -113,8 +128,14 @@ export class FolderDetailComponent implements OnInit {
 
   loadMfiles() {
     this.mediaService.loadMfilesByFolder(this.folder.id)
-    .subscribe((response:Mfile[]) => { this.mfiles = response; });
+      .subscribe((response: Mfile[]) => { this.mfiles = response; });
 
   }
+
+  getTitle(bookmark_id) {
+    this.mediaService.getTitle(bookmark_id)
+      .subscribe((response: string) => { this.onlineTitle = response; });
+  }
+
 
 }

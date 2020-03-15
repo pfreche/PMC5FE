@@ -4,6 +4,7 @@ export class Folder {
     storage_id: number;
     mpath: string;
     lfolder: string;
+    bookmark: any;
     
    constructor(id: number) {
    }

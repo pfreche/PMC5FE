@@ -1,5 +1,5 @@
 <div> <button type="button" class="btn btn-primary">
-    {{folder.title}} 
+    {{folder.title}}
   </button>
   <span class="border-right"></span>
 
@@ -12,35 +12,38 @@
   <span class="border-right"></span>
 
   <button type="button" class="btn btn-secondary  btn-sm">
-    {{pathLocation(folder.storage_id,1)}} 
+    {{pathLocation(folder.storage_id,1)}}
   </button>
   <span class="border-right"></span>
 
-   <button type="button" class="btn" [ngClass]="{'btn-danger': scanAndUpdate === 'Update ongoing','btn-success': scanAndUpdate === 'Update done'}  ">
+  <button type="button" class="btn"
+    [ngClass]="{'btn-danger': scanAndUpdate === 'Update ongoing','btn-success': scanAndUpdate === 'Update done'}  ">
     {{scanAndUpdate}}
   </button>
 
 </div>
 
 <p *ngIf="folder.bookmark">
-    <a [routerLink]="['/bookmarks', folder.bookmark.id]">{{folder.bookmark.url}}</a>
-    <span class="badge badge-light"><a [routerLink]="" (click)="addSuffix(folder.bookmark.id)">S</a></span>
-    <span class="badge badge-light"><a [routerLink]="" (click)="modulateBookmarkURL(folder.bookmark.id)">Modulate</a></span>
-    </p>
-    
+  <a [routerLink]="['/bookmarks', folder.bookmark.id]">{{folder.bookmark.url}}</a>
+  <span class="badge badge-light"><a [routerLink]="" (click)="addSuffix(folder.bookmark.id)">S</a></span>
+  <span class="badge badge-light"><a [routerLink]=""
+      (click)="modulateBookmarkURL(folder.bookmark.id)">Modulate</a></span>
+  <span class="badge badge-light"><a [routerLink]="" (click)="getTitle(folder.bookmark.id)">{{onlineTitle}}</a></span>
+</p>
+
 <button (click)="dirlist = !dirlist"> Dirlist Toggle</button>
 <button (click)="deleteFolder(folder.id)"> Delete Folder</button>
+<button (click)="deleteMfilesWOPhysicalFile(folder.id)"> Delete Mfiles W/O File</button>
 <button (click)="scanAndAddFromOriginLocation(folder.id)"> Scan for new Mfiles from OriginLocation</button>
 <button (click)="getLocationsT2()"> Locations to move</button>
 <button *ngFor="let location of locations" (click)="moveToLocation(location.id)">{{location.uri}}</button>
 
 
-<ng-container *ngIf="!dirlist" >
-        <app-mfiles [mfiles]="mfiles" ></app-mfiles>
+<ng-container *ngIf="!dirlist">
+  <app-mfiles [mfiles]="mfiles"></app-mfiles>
 
 </ng-container>
-    
-<ng-container *ngIf="dirlist" >
-    <app-dirlist [folder_id]="folder.id"></app-dirlist>
-</ng-container>
 
+<ng-container *ngIf="dirlist">
+  <app-dirlist [folder_id]="folder.id"></app-dirlist>
+</ng-container>
